@@ -10,7 +10,7 @@
 </head>
 <body>
 
-	<form method=post action="">
+	<form method=post onsubmit="newAcct(this.form)" action="login.jsp">
 		<h3>Login</h3>
 		<table>
 			<tr>
@@ -30,14 +30,18 @@
 				<td><input type="text" name="eaddress"></td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="submit"
-					onclick="newAcct(this.form)" /></td>
+				<td><input type="submit" value="submit"></td>
 			</tr>
 		</table>
 	</form>
+	<h3>Return to Login</h3>
+	<input type="button" value="Return" onClick="window.location='login.jsp';">
+	
 	<script>
 function newAcct(form){
-
+	
+	Exception e;
+	try{
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
@@ -74,6 +78,9 @@ function newAcct(form){
 
 			//close the connection.
 			con.close();
+	}catch(e){
+		e.printStackTrace();
+	}
 
 }
 </script>

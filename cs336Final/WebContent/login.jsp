@@ -12,7 +12,7 @@
 <h1>Login or Register</h1>
 
 <br>
-<form method=post action=loggingIn.jsp>
+<form method=post action=LoginAttempt.jsp>
 	<h3>Login</h3>
 	<table>
 		<tr>

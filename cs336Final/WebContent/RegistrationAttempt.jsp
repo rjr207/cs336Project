@@ -21,12 +21,12 @@ try{
 	Connection con = db.getConnection();
 	
 	Statement q1 = con.createStatement();
-	System.out.println("Attempting query:SELECT * from EMAILACCOUNT where eaddress=\'"+ eaddr +"\'");
+	//System.out.println("Attempting query:SELECT * from EMAILACCOUNT where eaddress=\'"+ eaddr +"\'");
 	ResultSet result = q1.executeQuery("SELECT * from EMAILACCOUNT where eaddress=\'"+ eaddr +"\'");
 
 	if(result.next()){
 		con.close();
-		System.out.println("Used email");
+		//System.out.println("Used email");
 		response.sendRedirect("register.jsp");
 	}
 	
@@ -39,7 +39,7 @@ try{
 	s1.executeUpdate(insert1);
 	
 	Statement q2 = con.createStatement();
-	System.out.println("Attempting query:SELECT * from ENDUSER where username=\'"+ usr +"\'");
+	//System.out.println("Attempting query:SELECT * from ENDUSER where username=\'"+ usr +"\'");
 	result = q2.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\'");
 
 	if(result.next()){

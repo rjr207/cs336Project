@@ -19,8 +19,8 @@
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
 			
-			String username = request.getParameter("username");
-			String password = request.getParameter("password");
+			String username = (String)session.getAttribute("username");
+			String password = (String)session.getAttribute("password");
 
 			out.println("Username is: " + username);
 			out.println("Password is: " + password);

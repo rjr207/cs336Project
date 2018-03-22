@@ -24,12 +24,14 @@ try {
 	if(result.next()){
 		//close the connection.
 		con.close();
-		System.out.println("Successful login");
-		response.sendRedirect("loggingIn.jsp");
+		//System.out.println("Successful login");
+		session.setAttribute("username", usr);
+		session.setAttribute("password", pword);
+		//response.sendRedirect("loggingIn.jsp");
 	}else{
 		//close the connection.
 		con.close();
-		System.out.println("Failed login");
+		//System.out.println("Failed login");
 		response.sendRedirect("login.jsp");
 	}
 } catch (Exception e) {
@@ -37,5 +39,7 @@ try {
 }
 
 %>
+
+<meta http-equiv="refresh" content="0; URL=loggingIn.jsp">
 </body>
 </html>

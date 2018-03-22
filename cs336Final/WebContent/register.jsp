@@ -38,8 +38,6 @@
 	<script>
 function newAcct(form){
 
-		try {
-
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
@@ -76,8 +74,7 @@ function newAcct(form){
 
 			//close the connection.
 			con.close();
-		} catch (Exception e) {
-		}
+
 }
 </script>
 </body>

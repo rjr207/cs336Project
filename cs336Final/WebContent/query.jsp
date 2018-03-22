@@ -13,8 +13,6 @@
 	<%
 		List<String> list = new ArrayList<String>();
 
-		try {
-
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();	
@@ -73,8 +71,6 @@
 			//close the connection.
 			con.close();
 
-		} catch (Exception e) {
-		}
 	%>
 
 </body>

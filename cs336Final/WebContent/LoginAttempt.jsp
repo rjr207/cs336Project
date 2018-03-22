@@ -22,15 +22,16 @@ try {
 	ResultSet result = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 
 	if(result.next()){
+		//close the connection.
+		con.close();
 		System.out.println("Successful login");
 		response.sendRedirect("loggingIn.jsp");
 	}else{
+		//close the connection.
+		con.close();
 		System.out.println("Failed login");
 		response.sendRedirect("login.jsp");
 	}
-
-	//close the connection.
-	con.close();
 } catch (Exception e) {
 	e.printStackTrace();
 }

@@ -28,7 +28,10 @@
 			//close the connection.
 			con.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	%>
+	<br><br>
+	<input type="button" value="Signout" onClick="window.location='login.jsp';">
 </body>
 </html>

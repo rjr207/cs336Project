@@ -11,7 +11,7 @@
 <body>
 
 	<form method=post onsubmit="newAcct(this.form)" action="RegistrationAttempt.jsp">
-		<h3>Login</h3>
+		<h3>Input Information</h3>
 		<table>
 			<tr>
 				<td>Username</td>

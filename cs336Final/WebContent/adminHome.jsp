@@ -9,6 +9,15 @@
 <title>Administrator Home</title>
 </head>
 <body>
+<table>
+		<tr>
+			<td><input type="button" value="Home" onClick="window.location='adminHome.jsp';"></td>
+			<td><input type="button" value="Messages" onClick="window.location='messages.jsp';"></td>
+			<td><input type="button" value="Account" onClick="window.location='accountInfo.jsp';"></td>
+			<td><input type="button" value="Log Out" onClick="window.location='login.jsp';"></td>
+		
+		</tr>
+	</table>
 <h1>Welcome Administrator</h1>
 <br>
 <h2>Account Functions</h2>

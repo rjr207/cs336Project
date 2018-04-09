@@ -20,19 +20,49 @@ try {
 	Statement stat = con.createStatement();
 	//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 	ResultSet result = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
-
+	
+	//user is an enduser
 	if(result.next()){
 		//close the connection.
 		con.close();
 		//System.out.println("Successful login");
 		session.setAttribute("username", usr);
 		session.setAttribute("password", pword);
-		//response.sendRedirect("loggingIn.jsp");
+		response.sendRedirect("userHome.jsp");
+		
+	//not an enduser
 	}else{
-		//close the connection.
-		con.close();
-		//System.out.println("Failed login");
-		response.sendRedirect("login.jsp");
+		result = stat.executeQuery("SELECT * from CUSTOMERREPRESENTATIVE where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+		//user is a customer rep
+		if(result.next()){
+			//close the connection.
+			con.close();
+			//System.out.println("Successful login");
+			session.setAttribute("username", usr);
+			session.setAttribute("password", pword);
+			response.sendRedirect("repHome.jsp");
+			
+		//not an rep
+		}else{
+			result = stat.executeQuery("SELECT * from ADMIN where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+			//user is an admin
+			if(result.next()){
+				//close the connection.
+				con.close();
+				//System.out.println("Successful login");
+				session.setAttribute("username", usr);
+				session.setAttribute("password", pword);
+				response.sendRedirect("adminHome.jsp");
+				
+			//not anything
+			}else{
+				//close the connection.
+				con.close();
+				//System.out.println("Failed login");
+				response.sendRedirect("login.jsp");
+			}
+		}
+		
 	}
 } catch (Exception e) {
 	e.printStackTrace();
@@ -40,6 +70,5 @@ try {
 
 %>
 
-<meta http-equiv="refresh" content="0; URL=loggingIn.jsp">
 </body>
 </html>

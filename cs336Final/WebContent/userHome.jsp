@@ -31,8 +31,7 @@
 			
 			String username = (String)session.getAttribute("username");
 			String password = (String)session.getAttribute("password");
-			out.println("Username is: " + username);
-			out.println("Password is: " + password);
+
 			//close the connection.
 			con.close();
 		} catch (Exception e) {

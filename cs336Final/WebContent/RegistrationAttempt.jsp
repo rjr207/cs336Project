@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+a <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
@@ -14,6 +14,7 @@ String usr = request.getParameter("username");
 String pword = request.getParameter("password");
 String addr = request.getParameter("address");
 String eaddr = request.getParameter("eaddress");
+String access  = request.getParameter("userlvl");
 
 try{
 	//Get the database connection
@@ -48,8 +49,7 @@ try{
 		response.sendRedirect("register.jsp");
 	}
 
-	//Make an insert statement for the Sells table:
-	String insert2 = "INSERT INTO ENDUSER(username, password, address, eaddress)" + " VALUES (\'"+usr+"\',\'"+pword+"\',\'"+addr+"\',\'"+eaddr+"\')";
+	String insert2 = "INSERT INTO ENDUSER(username, password, address, eaddress, userlvl)" + " VALUES (\'"+usr+"\',\'"+pword+"\',\'"+addr+"\',\'"+eaddr+"\',\'"+access+"\')";
 	
 	Statement s2 =con.createStatement();
 

@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+a <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
@@ -9,8 +9,8 @@
 <title>Create an Account</title>
 </head>
 <body>
-
 	<form method=post onsubmit="newAcct(this.form)" action="RegistrationAttempt.jsp">
+		<input type="hidden" name="userlvl" value="1">
 		<h3>Login</h3>
 		<table>
 			<tr>

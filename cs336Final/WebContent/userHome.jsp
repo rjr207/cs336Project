@@ -13,7 +13,7 @@ if(session.getAttribute("resNum") == null){
 	String currNum = request.getParameter("resNum");
 	//unitialized session variable, set to default
 	if(currNum == null){
-		session.setAttribute("resNum", 10);
+		session.setAttribute("resNum", "10");
 	//form is filled out
 	}else{
 		session.setAttribute("resNum", currNum);
@@ -66,13 +66,15 @@ if(session.getAttribute("resNum") == null){
 	<h1>View Current Auctions</h1>
 	<form method = "post" action="userHome.jsp">
 		<select name="resNum" onchange="this.form.submit()">
-			<option value=10>Show 10 Results</option>
-			<option value=20>Show 20 Results</option>
-			<option value=50>Show 50 Results</option>
-			<option value=100>Show 100 Results</option>
+			<option value="10">Show 10 Results</option>
+			<option value="20">Show 20 Results</option>
+			<option value="50">Show 50 Results</option>
+			<option value="100">Show 100 Results</option>
 		</select>
 	</form>
 	<%
+		out.println();
+		int numRows = Integer.parseInt((String)session.getAttribute("resNum"));
 		try {
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
@@ -101,7 +103,13 @@ if(session.getAttribute("resNum") == null){
 				out.println("<td>|</td>");
 				out.println("</tr>");
 				do{
-					out.println("reached here");
+					//decrement each cycle
+					if(numRows == 0){
+						break;
+					}else{
+						numRows--;
+					}
+					
 					highestBid = stat2.executeQuery("SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ result.getString("auctionNum")+"\'");
 					
 					out.println("<tr>");

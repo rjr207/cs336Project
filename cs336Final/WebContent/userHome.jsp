@@ -63,7 +63,7 @@ if(session.getAttribute("resNum") == null){
 			e.printStackTrace();
 		}
 	%>
-	<h1>View current auctions</h1>
+	<h1>View Current Auctions</h1>
 	<form method = "post" action="userHome.jsp">
 		<select name="resNum" onchange="this.form.submit()">
 			<option value=10>Show 10 Results</option>
@@ -78,8 +78,63 @@ if(session.getAttribute("resNum") == null){
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
 			Statement stat = con.createStatement();
+			Statement stat2;
 			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
-			ResultSet result = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+			//NOTE: for now, only looks for auctions, not active auctions
+			ResultSet result = stat.executeQuery("SELECT * from AUCTION");
+			ResultSet highestBid;
+			
+			//There are ongoing auctions
+			if(result.next()){
+				out.println("<table>");
+				out.println("<tr>");
+				out.println("<td>|</td>");
+				out.println("<td>Auction#</td>");
+				out.println("<td>|</td>");
+				out.println("<td>Item Name</td>");
+				out.println("<td>|</td>");
+				out.println("<td>Item Type</td>");
+				out.println("<td>|</td>");
+				out.println("<td>Current Bid</td>");
+				out.println("<td>|</td>");
+				out.println("<td>Username</td>");
+				out.println("<td>|</td>");
+				out.println("</tr>");
+				do{
+					stat2 = con.createStatement();
+					//highestBid = stat.executeQuery("SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ result.getString("auctionNum")+"\'");
+					
+					out.println("<tr>");
+					out.println("<td>|</td>");
+					out.print("<td>");
+					out.print(result.getString("auctionNum"));
+					out.println("</td>");
+					out.println("<td>|</td>");
+					out.print("<td>");
+					out.print(result.getString("itemName"));
+					out.println("</td>");
+					out.println("<td>|</td>");
+					out.print("<td>");
+					out.print(result.getString("itemType"));
+					out.println("</td>");
+					out.println("<td>|</td>");
+					out.print("<td>");
+					//out.print(highestBid.getString("bidAmount"));
+					out.println("</td>");
+					out.println("<td>|</td>");
+					out.print("<td>");
+					out.print(result.getString("posterUsername"));
+					out.println("</td>");
+					out.println("<td>|</td>");
+					out.println("</tr>");
+				}while(result.next());
+				out.println("</table>");
+
+			//There are no ongoing auctions
+			}else{
+				out.println("No auctions currently!");
+			}
+			
 			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();

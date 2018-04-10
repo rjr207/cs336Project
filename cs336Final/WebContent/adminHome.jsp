@@ -23,10 +23,10 @@
 <h2>Account Functions</h2>
 	<form method=post onsubmit="newAcct(this.form)" action="registrationAttempt.jsp">
 	<input type="hidden" name="userlvl" value="2">
-	<h3>Create New Customer Representative</h3>
+	<h3>Create New Customer Representative</h3><br>
 	<table>
 		<tr>
-			<td>Username</td>
+			<td>User-name</td>
 			<td><input type="text" name="username"></td>
 		</tr>
 		<tr>
@@ -48,10 +48,10 @@
 	</form>
 <br>
 	<form method=post onsubmit="deleteAcct(this.form)" action="deleteAttempt.jsp">
-	<h3>Delete Account</h3>
+	<h3>Delete Account</h3><br>
 	<table>
 		<tr>
-			<td>Username</td>
+			<td>User-name</td>
 			<td><input type="text" name="username"></td>
 		</tr>
 		<tr>
@@ -59,18 +59,23 @@
 		</tr>
 	</table>
 	</form>
-<br><br>
+<br>
 <h2>Auction Functions</h2><br>
-	<h3>Sales Reports</h3>
-	<form action="salesGen.jsp">
-		<select name="Report Type">
-			<option value="a">Total Earnings</option>
-			<option value="b">Earnings Per Item</option>
-			<option value="c">Earnings Per Item Type</option>
-			<option value="d">Earnings Per End-User</option>
-			<option value="e">Best-selling Item</option>
-			<option value="f">Best-selling User</option>
-		</select>
-	</form>
+	<h3>Sales Reports</h3><br>
+	<table>
+		<tr>
+			<td><input type="button" value="Total Earnings" onClick="window.location='genTotalSales.jsp';"></td>
+			<td><input type="button" value="Earnings Per Item" onClick="window.location='genItemSales.jsp';"></td>
+			<td><input type="button" value="Earnings Per End-User" onClick="window.location='genUserSales.jsp';"></td>
+			<td><input type="button" value="Best-Selling Item" onClick="window.location='genBestItem.jsp';"></td>
+			<td><input type="button" value="Best-Selling Item Type" onClick="window.location='genBestType.jsp';"></td>
+			<td><input type="button" value="Best-Selling User" onClick="window.location='genBestUser.jsp';"></td>
+			<td><input type="button" value="Best Buyer" onClick="window.location='genBestBuyer.jsp';"></td>
+		</tr>
+	</table><br>
+	<h3>Bid Removal</h3><br>
+	
+	<h3>Auction Removal</h3><br>
+
 </body>
 </html>

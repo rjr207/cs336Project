@@ -28,6 +28,7 @@ try {
 		//System.out.println("Successful login");
 		session.setAttribute("username", usr);
 		session.setAttribute("password", pword);
+		session.setAttribute("auctionPage", 1);
 		response.sendRedirect("userHome.jsp");
 		
 	//not an enduser

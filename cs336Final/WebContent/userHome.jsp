@@ -6,6 +6,31 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<%
+//retrieve number of auction results to display
+//no preexisting session 
+if(session.getAttribute("resNum") == null){
+	String currNum = request.getParameter("resNum");
+	//unitialized session variable, set to default
+	if(currNum == null){
+		session.setAttribute("resNum", 10);
+	//form is filled out
+	}else{
+		session.setAttribute("resNum", currNum);
+	}
+}else{
+	String currNum = request.getParameter("resNum");
+	//unitialized session variable, set to default
+	if(currNum == null){
+	//form is filled out
+	}else{
+		session.setAttribute("resNum", currNum);
+	}
+}
+//out.println("Session value = " + session.getAttribute("resNum"));
+//out.println("Form value was = " + request.getParameter("resNum"));
+%>
+
 <title>Welcome!</title>
 </head>
 <body>
@@ -33,6 +58,28 @@
 			String password = (String)session.getAttribute("password");
 
 			//close the connection.
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	%>
+	<h1>View current auctions</h1>
+	<form method = "post" action="userHome.jsp">
+		<select name="resNum" onchange="this.form.submit()">
+			<option value=10>Show 10 Results</option>
+			<option value=20>Show 20 Results</option>
+			<option value=50>Show 50 Results</option>
+			<option value=100>Show 100 Results</option>
+		</select>
+	</form>
+	<%
+		try {
+			//Get the database connection
+			ApplicationDB db = new ApplicationDB();	
+			Connection con = db.getConnection();
+			Statement stat = con.createStatement();
+			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+			ResultSet result = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();

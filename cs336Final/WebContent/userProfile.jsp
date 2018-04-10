@@ -9,7 +9,6 @@
 <title>User Profile</title>
 </head>
 <body>
-<table>
 <%
 try {
 	
@@ -33,6 +32,18 @@ try {
 	while(previousBids.next()){
 		out.println( "<p>Item: " + previousBids.getString("itemName") + "&nbsp;&nbsp;Amount : $" + previousBids.getDouble("bidAmount") + "</p>" );
 	}
+	
+	//TODO: Remove after debugging
+	session.setAttribute("username", "dave");
+	System.out.println(session.getAttribute("username"));
+	
+	if(session.getAttribute("username").equals(username)){
+		%><br>If you would like to change your password, enter your new password: 
+		<form method=post action=changePassAttempt.jsp> 
+			<input name="newPass" type="password">
+			<input type="submit" value="Submit">
+		</form>
+	<%}
 	
 %>
 </body>

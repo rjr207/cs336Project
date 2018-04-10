@@ -78,7 +78,7 @@ if(session.getAttribute("resNum") == null){
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
 			Statement stat = con.createStatement();
-			Statement stat2;
+			Statement stat2 = con.createStatement();
 			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 			//NOTE: for now, only looks for auctions, not active auctions
 			ResultSet result = stat.executeQuery("SELECT * from AUCTION");
@@ -101,8 +101,8 @@ if(session.getAttribute("resNum") == null){
 				out.println("<td>|</td>");
 				out.println("</tr>");
 				do{
-					stat2 = con.createStatement();
-					//highestBid = stat.executeQuery("SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ result.getString("auctionNum")+"\'");
+					out.println("reached here");
+					highestBid = stat2.executeQuery("SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ result.getString("auctionNum")+"\'");
 					
 					out.println("<tr>");
 					out.println("<td>|</td>");
@@ -119,7 +119,11 @@ if(session.getAttribute("resNum") == null){
 					out.println("</td>");
 					out.println("<td>|</td>");
 					out.print("<td>");
-					//out.print(highestBid.getString("bidAmount"));
+					if(highestBid.next()){
+						out.print(highestBid.getInt(1));
+					}else{
+						out.print(result.getString("startingPrice"));
+					}
 					out.println("</td>");
 					out.println("<td>|</td>");
 					out.print("<td>");

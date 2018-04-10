@@ -21,7 +21,7 @@
 		
 		out.println("<table>");
 		out.println("<tr>");
-		out.println("<td>User</td>");
+		out.println("<td>Item</td>");
 		out.println("<td>Total Sales</td>");
 		out.println("</tr>");
 		

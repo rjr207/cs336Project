@@ -47,7 +47,7 @@
 	</table>
 	</form>
 <br>
-	<form method=post onsubmit="deleteAcct(this.form)" action="deleteAttempt.jsp">
+	<form method=post onsubmit="deleteAcct(this.form)" action="usrDeleteAttempt.jsp">
 	<h3>Delete Account</h3><br>
 	<table>
 		<tr>
@@ -75,7 +75,21 @@
 	</table><br>
 	<h3>Bid Removal</h3><br>
 	
-	<h3>Auction Removal</h3><br>
+	<form method=post onsubmit="deleteAuc(this.form)" action="aucDeleteAttempt.jsp">
+	<h3>Delete Auction</h3><br>
+	<table>
+		<tr>
+			<td>Auction Number</td>
+			<td><input type="text" name="auction number"></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="submit"></td>
+		</tr>
+	</table>
+	</form><br>
+	
+	<h3>Browse Auctions</h3>
+	
 
 </body>
 </html>

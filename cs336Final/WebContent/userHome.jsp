@@ -7,6 +7,33 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <%
+//retrieve page number
+if(session.getAttribute("pageNum") == null){
+	session.setAttribute("pageNum", "1");
+	out.println("Page is: "+ session.getAttribute("pageNum"));
+}else{
+	String currPage = request.getParameter("navBtn");
+	
+	int intPage = Integer.parseInt((String)session.getAttribute("pageNum"));
+	//Prev
+	if("Previous Page".equals(currPage)){
+		if(intPage > 1){
+			intPage--;
+			session.setAttribute("pageNum",(""+intPage));
+		}
+	//next
+	}else if("Next Page".equals(currPage)){
+		intPage++;
+		session.setAttribute("pageNum",(""+intPage));
+	//neither
+	}else{
+		session.setAttribute("pageNum", "1");
+	}
+	
+
+	out.println("Page is: "+ session.getAttribute("pageNum"));
+}
+
 //retrieve number of auction results to display
 //no preexisting session 
 if(session.getAttribute("resNum") == null){
@@ -66,6 +93,7 @@ if(session.getAttribute("resNum") == null){
 	<h1>View Current Auctions</h1>
 	<form method = "post" action="userHome.jsp">
 		<select name="resNum" onchange="this.form.submit()">
+			<option value="0">Select Number of Results</option>
 			<option value="10">Show 10 Results</option>
 			<option value="20">Show 20 Results</option>
 			<option value="50">Show 50 Results</option>
@@ -73,8 +101,11 @@ if(session.getAttribute("resNum") == null){
 		</select>
 	</form>
 	<%
-		out.println();
 		int numRows = Integer.parseInt((String)session.getAttribute("resNum"));
+		int pagNum = Integer.parseInt((String)session.getAttribute("pageNum"))-1;//page number, minus 1
+		int needToPass = numRows*pagNum;
+		int currRow = 1;
+		int prevRows = 0;
 		try {
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
@@ -103,44 +134,57 @@ if(session.getAttribute("resNum") == null){
 				out.println("<td>|</td>");
 				out.println("</tr>");
 				do{
-					//decrement each cycle
-					if(numRows == 0){
-						break;
+					if(prevRows < needToPass){
+						prevRows++;
 					}else{
-						numRows--;
-					}
+						//decrement each cycle
+						if(currRow > numRows){
+							break;
+						}else{
+							currRow++;
+						}
 					
-					highestBid = stat2.executeQuery("SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ result.getString("auctionNum")+"\'");
+						highestBid = stat2.executeQuery("SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ result.getString("auctionNum")+"\'");
 					
-					out.println("<tr>");
-					out.println("<td>|</td>");
-					out.print("<td>");
-					out.print(result.getString("auctionNum"));
-					out.println("</td>");
-					out.println("<td>|</td>");
-					out.print("<td>");
-					out.print(result.getString("itemName"));
-					out.println("</td>");
-					out.println("<td>|</td>");
-					out.print("<td>");
-					out.print(result.getString("itemType"));
-					out.println("</td>");
-					out.println("<td>|</td>");
-					out.print("<td>");
-					if(highestBid.next()){
-						out.print(highestBid.getInt(1));
-					}else{
-						out.print(result.getString("startingPrice"));
+						out.println("<tr>");
+						out.println("<td>|</td>");
+						out.print("<td>");
+						out.print(result.getString("auctionNum"));
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.print("<td>");
+						out.print(result.getString("itemName"));
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.print("<td>");
+						out.print(result.getString("itemType"));
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.print("<td>");
+						if(highestBid.next()){
+							out.print(highestBid.getInt(1));
+						}else{
+							out.print(result.getString("startingPrice"));
+						}
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.print("<td>");
+						out.print(result.getString("posterUsername"));
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.println("</tr>");
 					}
-					out.println("</td>");
-					out.println("<td>|</td>");
-					out.print("<td>");
-					out.print(result.getString("posterUsername"));
-					out.println("</td>");
-					out.println("<td>|</td>");
-					out.println("</tr>");
 				}while(result.next());
+				out.println("<form action=\'userHome.jsp\' method=\"post\">");
 				out.println("</table>");
+				out.println("<table>");
+				out.println("<tr>");
+				out.println("<td><input type=\"submit\" name=\"navBtn\" value=\"Previous Page\"></td>");
+				out.println("<td><input type=\"submit\" name=\"navBtn\" value=\"Next Page\"></td>");
+				out.println("</tr>");
+				out.println("</table>");
+
+
 
 			//There are no ongoing auctions
 			}else{

@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login or Register</title>
+<title>Welcome!</title>
 </head>
-
 <body>
-<h1>Login or Register</h1>
-
+	<h1>Login Unsuccessful!</h1>
+<br>
+	<h2>Try Again</h2>
 <br>
 <form method=post action=LoginAttempt.jsp>
 	<h3>Login</h3>
@@ -29,12 +29,14 @@
 		</tr>
 	</table>
 </form>
-
 <br>
-
 <form method=post action=register.jsp>
 	<h3>Register</h3>
 	<input type="submit" value="Create new account" />
+</form><br>
+<form method=post action=resetPW.jsp>
+	<h3>Register</h3>
+	<input type="submit" value="Reset my Password" />
 </form>
 </body>
 </html>

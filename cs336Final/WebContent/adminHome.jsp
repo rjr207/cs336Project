@@ -80,7 +80,7 @@
 	<table>
 		<tr>
 			<td>Auction Number</td>
-			<td><input type="text" name="auction number"></td>
+			<td><input type="text" name="auctionNumber"></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="submit"></td>

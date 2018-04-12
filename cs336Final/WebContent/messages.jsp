@@ -121,6 +121,8 @@ if(session.getAttribute("messResNum") == null){
 				out.println("<td>|</td>");
 				out.println("<td>Preview</td>");
 				out.println("<td>|</td>");
+				out.println("<td></td>");
+				out.println("<td>|</td>");
 				out.println("</tr>");
 				do{
 					if(prevRows < needToPass){
@@ -145,6 +147,11 @@ if(session.getAttribute("messResNum") == null){
 						out.println("<td>|</td>");
 						out.print("<td>");
 						out.print("tbd");
+						out.println("<td>|</td>");
+						out.println("<td><form method = \"post\" action=\"viewMessage.jsp\">");
+						out.println("<input type=\"hidden\" name=\"messageNumber\" value="+ result.getString("eid") +">");
+						out.println("<input type=\"submit\" value=\"Go To Auction\" />");
+						out.println("</form></td>");
 						out.println("<td>|</td>");
 						out.println("</tr>");
 					}

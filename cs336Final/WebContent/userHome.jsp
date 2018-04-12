@@ -90,6 +90,45 @@ if(session.getAttribute("resNum") == null){
 		}
 
 	%>
+	<h1>Search for an Item</h1><br>
+	<form method="post" action="SearchResult.jsp">
+	<table>
+	<tr>
+		<td>Sock Style</td>
+		<td>
+		<select name="sockStyle">
+			<option value="nopref">Select Style</option>
+			<option value="knee">Knee</option>
+			<option value="crew">Crew</option>
+			<option value="ankle">Ankle</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Color</td>
+		<td><input type="text" name="color"></td>
+	</tr>
+	<tr>
+		<td>Size</td>
+		<td>
+			<select name="sockSize">
+			<option value="nopref">Select Size</option>
+			<option value="s">Small</option>
+			<option value="m">Medium</option>
+			<option value="l">Large</option>
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td>Current Price Below</td>
+		<td><input type="text" name="currPrice"></td>
+	</tr>
+	<tr>
+		<td><input type="submit" value="Submit" /></td>
+	</tr>
+	</table>
+	</form>
+
 	<h1>View Current Auctions</h1>
 	<form method = "post" action="userHome.jsp">
 		<select name="resNum" onchange="this.form.submit()">

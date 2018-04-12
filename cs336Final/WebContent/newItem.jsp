@@ -56,6 +56,9 @@
 		<td>Auction Duration (Number of Full 24-hour Days)</td>
 		<td><input type="text" name="days"></td>
 	</tr>
+	<tr>
+		<td><input type="submit" value="submit" /></td>
+	</tr>
 	</table>
 </form>
 </body>

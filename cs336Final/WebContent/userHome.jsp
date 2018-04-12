@@ -135,6 +135,8 @@ if(session.getAttribute("resNum") == null){
 				out.println("<td>|</td>");
 				out.println("<td>Sold To</td>");
 				out.println("<td>|</td>");
+				out.println("<td></td>");
+				out.println("<td>|</td>");
 				out.println("</tr>");
 				do{
 					if(prevRows < needToPass){
@@ -178,6 +180,11 @@ if(session.getAttribute("resNum") == null){
 						out.print("<td>");
 						out.print(result.getString("soldTo"));
 						out.println("</td>");
+						out.println("<td>|</td>");
+						out.println("<td><form method = \"post\" action=\"ItemAuction.jsp\">");
+						out.println("<input type=\"hidden\" name=\"auctionNumber\" value=\""+ result.getString("auctionNum") +"\">");
+						out.println("<input type=\"submit\" value=\"Go To Auction\" />");
+						out.println("</form></td>");
 						out.println("<td>|</td>");
 						out.println("</tr>");
 					}

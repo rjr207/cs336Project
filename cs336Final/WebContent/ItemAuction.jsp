@@ -11,10 +11,12 @@
 <body>
 <table>
 <%
+int auctionNumber = Integer.parseInt(request.getParameter("auctionNumber"));
+
 try {
 	
 	//Not yet sure how to get auction num so using static variable
-	int auctionNum = 1;
+	int auctionNum = auctionNumber;
 	
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	

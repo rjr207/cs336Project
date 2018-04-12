@@ -29,6 +29,7 @@ try {
 		session.setAttribute("username", usr);
 		session.setAttribute("password", pword);
 		session.setAttribute("auctionPage", 1);
+		session.setAttribute("usrlvl", "user");
 		response.sendRedirect("userHome.jsp");
 		
 	//not an enduser
@@ -41,6 +42,7 @@ try {
 			//System.out.println("Successful login");
 			session.setAttribute("username", usr);
 			session.setAttribute("password", pword);
+			session.setAttribute("usrlvl", "rep");
 			response.sendRedirect("repHome.jsp");
 			
 		//not an rep
@@ -53,6 +55,7 @@ try {
 				//System.out.println("Successful login");
 				session.setAttribute("username", usr);
 				session.setAttribute("password", pword);
+				session.setAttribute("usrlvl", "admin");
 				response.sendRedirect("adminHome.jsp");
 				
 			//not anything

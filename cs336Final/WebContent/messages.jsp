@@ -9,6 +9,21 @@
 <title>Messages</title>
 </head>
 <body>
-
+<table>
+		<tr>
+			<%
+			if(session.getAttribute("usrlvl").equals("user")){
+				out.println("<td><input type=\"button\" value=\"Home\" onClick=\"window.location=\'userHome.jsp\';\"></td>");
+			}else{
+				out.println("<td><input type=\"button\" value=\"Home\" onClick=\"window.location=\'repHome.jsp\';\"></td>");
+			}
+			%>
+			<td><input type="button" value="Messages" onClick="window.location='messages.jsp';"></td>
+			<td><input type="button" value="Account" onClick="window.location='accountInfo.jsp';"></td>
+			<td><input type="button" value="Log Out" onClick="window.location='login.jsp';"></td>
+		
+		</tr>
+	</table>
+	
 </body>
 </html>

@@ -10,7 +10,7 @@
 //retrieve page number
 if(session.getAttribute("pageNum") == null){
 	session.setAttribute("pageNum", "1");
-	out.println("Page is: "+ session.getAttribute("pageNum"));
+	//out.println("Page is: "+ session.getAttribute("pageNum"));
 }else{
 	String currPage = request.getParameter("navBtn");
 	
@@ -31,7 +31,6 @@ if(session.getAttribute("pageNum") == null){
 	}
 	
 
-	out.println("Page is: "+ session.getAttribute("pageNum"));
 }
 
 //retrieve number of auction results to display
@@ -89,6 +88,7 @@ if(session.getAttribute("resNum") == null){
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 	%>
 	<h1>View Current Auctions</h1>
 	<form method = "post" action="userHome.jsp">
@@ -101,6 +101,7 @@ if(session.getAttribute("resNum") == null){
 		</select>
 	</form>
 	<%
+		out.println("Page is: "+ session.getAttribute("pageNum"));
 		int numRows = Integer.parseInt((String)session.getAttribute("resNum"));
 		int pagNum = Integer.parseInt((String)session.getAttribute("pageNum"))-1;//page number, minus 1
 		int needToPass = numRows*pagNum;
@@ -130,7 +131,9 @@ if(session.getAttribute("resNum") == null){
 				out.println("<td>|</td>");
 				out.println("<td>Current Bid</td>");
 				out.println("<td>|</td>");
-				out.println("<td>Username</td>");
+				out.println("<td>Seller</td>");
+				out.println("<td>|</td>");
+				out.println("<td>Sold To</td>");
 				out.println("<td>|</td>");
 				out.println("</tr>");
 				do{
@@ -172,6 +175,10 @@ if(session.getAttribute("resNum") == null){
 						out.print(result.getString("posterUsername"));
 						out.println("</td>");
 						out.println("<td>|</td>");
+						out.print("<td>");
+						out.print(result.getString("soldTo"));
+						out.println("</td>");
+						out.println("<td>|</td>");
 						out.println("</tr>");
 					}
 				}while(result.next());
@@ -188,7 +195,7 @@ if(session.getAttribute("resNum") == null){
 
 			//There are no ongoing auctions
 			}else{
-				out.println("No auctions currently!");
+				out.println(" No auctions currently!");
 			}
 			
 			con.close();

@@ -14,9 +14,8 @@
 try {
 	
 	//TODO: Not yet sure how to get auction num so using static variable
-	int auctionNum = 1;
 	String username = (String)session.getAttribute("username");
-
+	%>
 	<table>
 		<tr>
 			<td><input type="button" value="Home" onClick="window.location='userHome.jsp';"></td>
@@ -28,9 +27,8 @@ try {
 	</table>
 	<table>
 <%
-int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
+	int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
 
-try {
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
@@ -107,15 +105,15 @@ else{%>
 ResultSet similar = con.createStatement().executeQuery("SELECT * from AUCTION where itemName=\'"+ itemName + "\' AND auctionNum <> "+ auctionNum +".");
 while(similar.next()){
 	out.println("<tr>" + similar.getString("itemName") + " Size: " + similar.getString("itemSize") + " Color: "+similar.getString("itemColor")+"</tr>");
-}%>
+}
+con.close();
+%>
 </table>
 
-</body>
-</html>
-
 <%
-con.close();
-} catch (Exception e) {
+}catch (Exception e) {
 	e.printStackTrace();
 }
 %>
+</body>
+</html>

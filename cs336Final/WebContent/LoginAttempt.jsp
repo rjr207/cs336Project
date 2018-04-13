@@ -1,4 +1,4 @@
-a <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
@@ -12,7 +12,6 @@ a <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 <%
 String usr = request.getParameter("username");
 String pword = request.getParameter("password");
-String access = request.getParameter("userlvl");
 
 try {
 
@@ -20,54 +19,33 @@ try {
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	Statement stat = con.createStatement();
+	ResultSet r1;
 	//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
-	ResultSet result = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+	r1 = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 	
-	//user is an enduser
-	if(result.next()){
+	if(r1.next()){
 		//close the connection.
 		con.close();
-		//System.out.println("Successful login");
-		session.setAttribute("username", usr);
-		session.setAttribute("password", pword);
-		session.setAttribute("auctionPage", 1);
-		session.setAttribute("usrlvl", "user");
-		response.sendRedirect("userHome.jsp");
-		
-	//not an enduser
-	}else{
-		result = stat.executeQuery("SELECT * from CUSTOMERREPRESENTATIVE where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
-		//user is a customer rep
-		if(result.next()){
-			//close the connection.
-			con.close();
-			//System.out.println("Successful login");
+		if(r1.getString("userlvl") == "1"){
 			session.setAttribute("username", usr);
 			session.setAttribute("password", pword);
-			session.setAttribute("usrlvl", "rep");
-			response.sendRedirect("repHome.jsp");
-			
-		//not an rep
-		}else{
-			result = stat.executeQuery("SELECT * from ADMIN where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
-			//user is an admin
-			if(result.next()){
-				//close the connection.
-				con.close();
-				//System.out.println("Successful login");
-				session.setAttribute("username", usr);
-				session.setAttribute("password", pword);
-				session.setAttribute("usrlvl", "admin");
-				response.sendRedirect("adminHome.jsp");
-				
-			//not anything
-			}else{
-				//close the connection.
-				con.close();
-				//System.out.println("Failed login");
-				response.sendRedirect("login.jsp");
-			}
+			response.sendRedirect("userHome.jsp");}
+		else if(r1.getString("userlvl") == "2"){
+			session.setAttribute("username", usr);
+			session.setAttribute("password", pword);
+			response.sendRedirect("repHome.jsp");}//Don't know what the rep file name is, so change accordingly
+		else if(r1.getString("userlvl") == "3"){
+			session.setAttribute("username", usr);
+			session.setAttribute("password", pword);
+			response.sendRedirect("adminHome.jsp");}
+		else{
+			response.sendRedirect("loginFail.jsp");}
 		}
+	else{
+		//close the connection.
+		con.close();
+		//System.out.println("Failed login");
+		response.sendRedirect("loginFail.jsp");
 	}
 } catch (Exception e) {
 	e.printStackTrace();

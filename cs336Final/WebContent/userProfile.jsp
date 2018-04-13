@@ -45,10 +45,7 @@ try {
 		out.println("<p>Item: " + itemsWon.getString("itemName") + "</p>");
 	}
 	
-	
-	//TODO: Remove after debugging
-	session.setAttribute("username", "dave");
-	System.out.println(session.getAttribute("username"));
+
 	
 	if(session.getAttribute("username").equals(username)){
 		out.println("<br><p>Alerts<p>");

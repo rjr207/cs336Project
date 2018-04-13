@@ -97,6 +97,7 @@ if(session.getAttribute("messResNum") == null){
 			Connection con = db.getConnection();
 			Statement stat0 = con.createStatement();
 			Statement stat = con.createStatement();
+			Statement stat1 = con.createStatement();
 			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 			//NOTE: for now, only looks for auctions, not active auctions
 			ResultSet eaddr;
@@ -107,8 +108,14 @@ if(session.getAttribute("messResNum") == null){
 				eaddr = stat0.executeQuery("SELECT eaddress from CUSTOMERREPRESENTATIVE where username=\'"+ session.getAttribute("username") +"\'");
 			}
 			eaddr.next();
+			String theEaddr = eaddr.getString(1);
 			
-			ResultSet result = stat.executeQuery("SELECT * from EMAIL where sender=\'"+ eaddr.getString(1) +"\' OR recipient=\'"+eaddr.getString(1)+"\'");
+			ResultSet result = stat.executeQuery("SELECT * from EMAIL where sender=\'"+ eaddr.getString(1) +"\' OR recipient=\'"+eaddr.getString(1)+"\' ORDER BY eid DESC");
+			
+			//get a random rep's email
+			ResultSet randomRep = stat1.executeQuery("SELECT * from CUSTOMERREPRESENTATIVE ORDER BY RAND() LIMIT 1");
+			randomRep.next();
+			String repEaddr = randomRep.getString("eaddress");
 			
 			//There are ongoing auctions
 			if(result.next()){
@@ -146,7 +153,11 @@ if(session.getAttribute("messResNum") == null){
 						out.println("</td>");
 						out.println("<td>|</td>");
 						out.print("<td>");
-						out.print(result.getString("contents").substring(0, Math.min(result.getString("contents").length(), 10)) + "...");
+						if(result.getString("contents") != null){
+							out.print(result.getString("contents").substring(0, Math.min(result.getString("contents").length(), 10)) + "...");
+						}else{
+							out.println("");
+						}
 						out.println("</td>");
 						out.println("<td>|</td>");
 						out.println("<td><form method = \"post\" action=\"viewMessage.jsp\">");
@@ -165,6 +176,7 @@ if(session.getAttribute("messResNum") == null){
 				out.println("<td><input type=\"submit\" name=\"navBtn\" value=\"Next Page\"></td>");
 				out.println("</tr>");
 				out.println("</table>");
+				out.println("</form>");
 
 
 
@@ -172,11 +184,27 @@ if(session.getAttribute("messResNum") == null){
 			}else{
 				out.println("No messages currently!");
 			}
-			
+			//field to create new message (if user)
+			if(session.getAttribute("usrlvl").equals("user")){
+				out.println("<h2>Message a Representative</h2>");
+				out.println("<form method=\"post\" action=\"newMessage.jsp\">");
+				out.println("<table>");
+				out.println("<tr>");
+				out.println("<input type=\"hidden\" name=\"targetEaddr\" value=\""+ repEaddr +"\">");
+				out.println("<input type=\"hidden\" name=\"senderEaddr\" value=\""+ theEaddr +"\">");
+				out.println("<td>");
+				out.println("<input type=\"submit\" value=\"Compose a Message\">");
+				out.println("</td>");
+				out.println("</tr>");
+				out.println("</table>");
+				out.println("</form>");
+			}
 			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	%>
+
 </body>
 </html>

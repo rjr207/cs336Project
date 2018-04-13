@@ -104,7 +104,7 @@ else{%>
 <%
 ResultSet similar = con.createStatement().executeQuery("SELECT * from AUCTION where itemName=\'"+ itemName + "\' AND auctionNum <> "+ auctionNum);
 while(similar.next()){
-	out.println("<tr>" + similar.getString("itemName") + " Size: " + similar.getString("itemSize") + " Color: "+similar.getString("itemColor")+"</tr>");
+	out.println("<tr>" + similar.getString("itemName") + " Size: " + similar.getString("itemSize") + " Color: "+similar.getString("itemColor")+"</tr><br>");
 }%>
 </table>
 

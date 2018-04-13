@@ -146,11 +146,12 @@ if(session.getAttribute("messResNum") == null){
 						out.println("</td>");
 						out.println("<td>|</td>");
 						out.print("<td>");
-						out.print("tbd");
+						out.print(result.getString("contents").substring(0, Math.min(result.getString("contents").length(), 10)) + "...");
+						out.println("</td>");
 						out.println("<td>|</td>");
 						out.println("<td><form method = \"post\" action=\"viewMessage.jsp\">");
 						out.println("<input type=\"hidden\" name=\"messageNumber\" value="+ result.getString("eid") +">");
-						out.println("<input type=\"submit\" value=\"Go To Auction\" />");
+						out.println("<input type=\"submit\" value=\"View Message\" />");
 						out.println("</form></td>");
 						out.println("<td>|</td>");
 						out.println("</tr>");

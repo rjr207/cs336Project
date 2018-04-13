@@ -26,7 +26,7 @@
 	</table>
 	
 	<%
-int eid = Integer.parseInt(request.getParameter("eid"));
+int eid = Integer.parseInt(request.getParameter("messageNumber"));
 
 try {
 		
@@ -37,6 +37,9 @@ try {
 	ResultSet result = stat.executeQuery("SELECT * from EMAIL where eid=\'"+ eid + "\'");
 	if(result.next()){
 		
+		out.println("<h4>Sender: " + result.getString("sender") +"</h4>");
+		out.println("<h4>Recipient: " + result.getString("recipient") +"</h4>");
+		out.println("<h4>Contents:</h4>");
 		out.println(result.getString("contents"));
 		
 	}

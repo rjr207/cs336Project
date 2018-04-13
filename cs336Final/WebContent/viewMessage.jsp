@@ -34,7 +34,12 @@ try {
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	Statement stat = con.createStatement();
+	Statement stat0 = con.createStatement();
+
 	ResultSet result = stat.executeQuery("SELECT * from EMAIL where eid=\'"+ eid + "\'");
+	ResultSet userEaddr = stat0.executeQuery("SELECT eaddress from ENDUSER where username=\'"+ session.getAttribute("username") +"\'");
+	userEaddr.next();
+	
 	if(result.next()){
 		
 		out.println("<h4>Sender: " + result.getString("sender") +"</h4>");
@@ -42,24 +47,26 @@ try {
 		out.println("<h4>Contents:</h4>");
 		out.println(result.getString("contents"));
 		
-		out.println("<h4>Reply");
-		//out.println("Params are: " + request.getParameter("targetEaddr") + ", " + request.getParameter("senderEaddr"));
-		out.println("<form method=post action=newMessageAttempt.jsp>");
-		out.println("<table>");
-		out.println("<tr>");
-		out.println("<td>");
-		out.println("<input type=\"hidden\" name=\"targetEaddr\" value=\""+ result.getString("sender") +"\">");
-		out.println("<input type=\"hidden\" name=\"senderEaddr\" value=\""+ result.getString("recipient") +"\">");
-		out.println("<textarea name=\"content\" rows=\"10\" cols=\"40\"></textarea>");
-		out.println("</td>");
-		out.println("</tr>");
-		out.println("<tr>");
-		out.println("<td>");
-		out.println("<input type=\"submit\" value=\"Send Reply\">");
-		out.println("</td>");
-		out.println("</tr>");
-		out.println("</table>");
-		out.println("</form>");
+		if(result.getString("recipient").equals(userEaddr.getString(1))){
+			out.println("<h4>Reply");
+			//out.println("Params are: " + request.getParameter("targetEaddr") + ", " + request.getParameter("senderEaddr"));
+			out.println("<form method=post action=newMessageAttempt.jsp>");
+			out.println("<table>");
+			out.println("<tr>");
+			out.println("<td>");
+			out.println("<input type=\"hidden\" name=\"targetEaddr\" value=\""+ result.getString("sender") +"\">");
+			out.println("<input type=\"hidden\" name=\"senderEaddr\" value=\""+ result.getString("recipient") +"\">");
+			out.println("<textarea name=\"content\" rows=\"10\" cols=\"40\"></textarea>");
+			out.println("</td>");
+			out.println("</tr>");
+			out.println("<tr>");
+			out.println("<td>");
+			out.println("<input type=\"submit\" value=\"Send Reply\">");
+			out.println("</td>");
+			out.println("</tr>");
+			out.println("</table>");
+			out.println("</form>");
+		}
 	}
 	else{
 		//Unable to find item

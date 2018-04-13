@@ -1,4 +1,4 @@
-a <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
@@ -14,7 +14,6 @@ String usr = request.getParameter("username");
 String pword = request.getParameter("password");
 String addr = request.getParameter("address");
 String eaddr = request.getParameter("eaddress");
-String access  = request.getParameter("userlvl");
 
 try{
 	//Get the database connection
@@ -29,7 +28,7 @@ try{
 	if(result.next()){
 		con.close();
 		//System.out.println("Used email");
-		response.sendRedirect("register.jsp");
+		response.sendRedirect("adminHome.jsp");
 		return;
 	}
 	
@@ -41,7 +40,7 @@ try{
 	if(result.next()){
 		con.close();
 		System.out.println("Used details: user");
-		response.sendRedirect("register.jsp");
+		response.sendRedirect("adminHome.jsp");
 		return;
 	}
 	
@@ -53,7 +52,7 @@ try{
 	if(result.next()){
 		con.close();
 		System.out.println("Used details: rep");
-		response.sendRedirect("register.jsp");
+		response.sendRedirect("adminHome.jsp");
 		return;
 	}
 	
@@ -65,7 +64,7 @@ try{
 	if(result.next()){
 		con.close();
 		System.out.println("Used details: admin");
-		response.sendRedirect("register.jsp");
+		response.sendRedirect("adminHome.jsp");
 		return;
 	}
 	
@@ -76,7 +75,7 @@ try{
 	s1.executeUpdate(insert1);
 	
 	//Make an insert statement for the enduser table:
-	String insert2 = "INSERT INTO ENDUSER(username, password, address, eaddress)" + " VALUES (\'"+usr+"\',\'"+pword+"\',\'"+addr+"\',\'"+eaddr+"\')";
+	String insert2 = "INSERT INTO CUSTOMERREPRESENTATIVE(username, password, address, eaddress, appointerUsername)" + " VALUES (\'"+usr+"\',\'"+pword+"\',\'"+addr+"\',\'"+eaddr+"\',\'"+(String)session.getAttribute("username")+"\')";
 	Statement s2 =con.createStatement();
 
 	System.out.println("Attempting query:"+insert2);
@@ -84,7 +83,7 @@ try{
 
 	//close the connection.
 	con.close();
-	response.sendRedirect("login.jsp");
+	response.sendRedirect("adminHome.jsp");
 	
 }catch(Exception e){
 e.printStackTrace();

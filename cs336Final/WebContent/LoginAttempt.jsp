@@ -21,28 +21,53 @@ try {
 	Connection con = db.getConnection();
 	Statement stat = con.createStatement();
 	//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
-	ResultSet result = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\' AND userlvl=\'"+access+"\'");
-
+	ResultSet result = stat.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+	
+	//user is an enduser
 	if(result.next()){
 		//close the connection.
 		con.close();
 		//System.out.println("Successful login");
 		session.setAttribute("username", usr);
 		session.setAttribute("password", pword);
-		if(access == "1"){
-			response.sendRedirect("loggingIn.jsp");}
-		else if(access == "2"){
-			response.sendRedirect("RepHome.jsp");}//Don't know what the rep file name is, so change accordingly
-		else if(access == "3"){
-			response.sendRedirect("AdminHome.jsp");}
-		else{
-			response.sendRedirect("login.jsp");}
+		session.setAttribute("auctionPage", 1);
+		session.setAttribute("usrlvl", "user");
+		response.sendRedirect("userHome.jsp");
+		
+	//not an enduser
+	}else{
+		result = stat.executeQuery("SELECT * from CUSTOMERREPRESENTATIVE where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+		//user is a customer rep
+		if(result.next()){
+			//close the connection.
+			con.close();
+			//System.out.println("Successful login");
+			session.setAttribute("username", usr);
+			session.setAttribute("password", pword);
+			session.setAttribute("usrlvl", "rep");
+			response.sendRedirect("repHome.jsp");
+			
+		//not an rep
+		}else{
+			result = stat.executeQuery("SELECT * from ADMIN where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+			//user is an admin
+			if(result.next()){
+				//close the connection.
+				con.close();
+				//System.out.println("Successful login");
+				session.setAttribute("username", usr);
+				session.setAttribute("password", pword);
+				session.setAttribute("usrlvl", "admin");
+				response.sendRedirect("adminHome.jsp");
+				
+			//not anything
+			}else{
+				//close the connection.
+				con.close();
+				//System.out.println("Failed login");
+				response.sendRedirect("login.jsp");
+			}
 		}
-	else{
-		//close the connection.
-		con.close();
-		//System.out.println("Failed login");
-		response.sendRedirect("login.jsp");
 	}
 } catch (Exception e) {
 	e.printStackTrace();
@@ -50,6 +75,5 @@ try {
 
 %>
 
-<meta http-equiv="refresh" content="0; URL=loggingIn.jsp">
 </body>
 </html>

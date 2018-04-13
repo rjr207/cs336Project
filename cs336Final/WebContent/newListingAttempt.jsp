@@ -10,45 +10,33 @@
 </head>
 <body>
 <%
-String usr = (String)session.getAttribute("username");
-String title = request.getParameter("title");
-String style = request.getParameter("sockStyle");
-String color  = request.getParameter("color");
-String size = request.getParameter("sockSize");
-String num = request.getParameter("quantity");
-String start = request.getParameter("startPrice");
-String res  = request.getParameter("resPrice");
-String time  = request.getParameter("days");
-Integer newauc = 0;
+
+String title = request.getParameter("itemName");
+String style = request.getParameter("itemType");
+String color  = request.getParameter("itemColor");
+String size = request.getParameter("itemSize");
+String start = request.getParameter("startingPrice");
+String res  = request.getParameter("reservePrice");
+String time  = request.getParameter("duration");
 
 try{
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	
-	Statement q1 = con.createStatement();
-	ResultSet r1;
-	r1 = q1.executeQuery("SELECT MAX(aucid) from ITEMLISTING");
 
-	if(r1.next()){
-		newauc = r1.getInt("Max(r1.aucid)");
-		newauc++;
-	}
-	
-	//Make an insert statement for the itemlisting table
-	String i1 = "INSERT INTO ITEMLISTING(username, aucid, title, sockStyle, color, sockSize, quantity, startPrice, resPrice, days)" +
-		" VALUES (\'" + usr + "\',\'"+ newauc +"\',\'"+ title +"\',\'"+ style +"\',\'"+ color +"\',\'"+ size +"\',\'"+ num +"\',\'"+ start +"\',\'"+ res +"\',\'"+ time +"\')";
+	//Make an insert statement for the auction table
+	String i1 = "INSERT INTO AUCTION(startingPrice, reservePrice, itemName, itemType, itemColor, itemSize, duration, posterUsername)" +
+		" VALUES (\'"+ start +"\',\'"+ res +"\',\'"+ title +"\',\'"+ style +"\',\'"+ color +"\',\'"+ size +"\',\'"+ time +"\',\'" + usr + "\')";
 	
 	//Execute insert
 	Statement s1 =con.createStatement();
 	s1.executeUpdate(i1);}
 
 	//Need to redirect to item display page here....
-
 catch(Exception e){
 e.printStackTrace();
 }
-
 %>
 </body>
 </html>

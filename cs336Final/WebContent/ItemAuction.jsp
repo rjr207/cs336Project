@@ -16,7 +16,21 @@ try {
 	//TODO: Not yet sure how to get auction num so using static variable
 	int auctionNum = 1;
 	String username = (String)session.getAttribute("username");
-	
+
+	<table>
+		<tr>
+			<td><input type="button" value="Home" onClick="window.location='userHome.jsp';"></td>
+			<td><input type="button" value="Messages" onClick="window.location='messages.jsp';"></td>
+			<td><input type="button" value="Account" onClick="window.location='accountInfo.jsp';"></td>
+			<td><input type="button" value="Log Out" onClick="window.location='login.jsp';"></td>
+		
+		</tr>
+	</table>
+	<table>
+<%
+int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
+
+try {
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
@@ -37,23 +51,24 @@ try {
 		<tr><td>Seller: <%out.println(result.getString("posterUsername"));%></td></tr>
 		<%
 		alerts = con.createStatement().executeQuery("SELECT * from ALERTS where username=\'"+ username + "\' AND itemWanted=\'"+ result.getString("itemName") +"\'.");
+
 	}
 	else{
 		//Unable to find item
 		System.out.println("Unable to find item");
 		//response.sendRedirect("login.jsp");
 	}
-
 %>
 </table>
 
 <br><p>Interested in this item? Place a bid!</p>
-<form method=post action=createBid.jsp>
+
+<form method=post action=bidCreateAttempt.jsp>
+<input type="hidden" name="listingNumber" value=auctionNum>
 <table>
-	<tr><td>Bid Amount: <input type="number" name="bidAmount"></td></tr>
-	<tr><td>AudoBid Max : <input type="number" name="autoBidMax"></td></tr>
-	<tr><td>Quantity: <input type="number" name="quantity"></td></tr>
-	<tr><td>Payment Method: <select name="payment">
+	<tr><td>Bid Amount: <input type="text" name="bidAmount"></td></tr>
+	<tr><td>AudoBid Max : <input type="text" name="autoBidMax"></td></tr>
+	<tr><td>Payment Method: <select>
 		<option value="Credit">Credit/Debit</option>
 		<option value="PayPal">PayPal</option>
 		<option value="BitCoin">BitCoin</option>

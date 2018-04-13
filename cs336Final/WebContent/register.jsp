@@ -9,9 +9,10 @@
 <title>Create an Account</title>
 </head>
 <body>
-	<form method=post onsubmit="newAcct(this.form)" action="registrationAttempt.jsp">
-		<input type="hidden" name="userlvl" value="1">
-		<h3>Login</h3>
+
+
+	<form method=post onsubmit="newAcct(this.form)" action="RegistrationAttempt.jsp">
+		<h3>Input Information</h3>
 		<table>
 			<tr>
 				<td>Username</td>

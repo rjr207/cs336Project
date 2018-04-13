@@ -25,7 +25,7 @@
 			<td><input type="password" name="password"></td>
 		</tr>
 		<tr>
-			<td><input type="submit" value="submit" /></td>
+			<td><input type="submit" value="Submit" /></td>
 		</tr>
 	</table>
 </form>

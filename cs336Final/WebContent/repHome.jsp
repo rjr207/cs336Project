@@ -56,82 +56,20 @@ if(session.getAttribute("resNum") == null){
 //out.println("Session value = " + session.getAttribute("resNum"));
 //out.println("Form value was = " + request.getParameter("resNum"));
 %>
-
-<title>Welcome!</title>
+<title>Welcome Representative!</title>
 </head>
 <body>
 	<table>
 		<tr>
-			<td><input type="button" value="Home" onClick="window.location='userHome.jsp';"></td>
+			<td><input type="button" value="Home" onClick="window.location='repHome.jsp';"></td>
 			<td><input type="button" value="Messages" onClick="window.location='messages.jsp';"></td>
 			<td><input type="button" value="Account" onClick="window.location='accountInfo.jsp';"></td>
 			<td><input type="button" value="Log Out" onClick="window.location='login.jsp';"></td>
 		
 		</tr>
 	</table>
-	
-	<h1>Sell an Item</h1>
-	<input type="button" value="Enter an Item" onClick="window.location='newItem.jsp';">
-	<br><br>
-
-	<%
-		try {
-			//Get the database connection
-			ApplicationDB db = new ApplicationDB();	
-			Connection con = db.getConnection();
-			
-			String username = (String)session.getAttribute("username");
-			String password = (String)session.getAttribute("password");
-
-
-			//close the connection.
-			con.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	%>
-	<h1>Search for an Item</h1><br>
-	<form method="post" action="SearchResult.jsp">
-	<table>
-	<tr>
-		<td>Sock Style</td>
-		<td>
-		<select name="sockStyle">
-			<option value="nopref">Select Style</option>
-			<option value="knee">Knee</option>
-			<option value="crew">Crew</option>
-			<option value="ankle">Ankle</option>
-		</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Color</td>
-		<td><input type="text" name="color"></td>
-	</tr>
-	<tr>
-		<td>Size</td>
-		<td>
-			<select name="sockSize">
-			<option value="nopref">Select Size</option>
-			<option value="s">Small</option>
-			<option value="m">Medium</option>
-			<option value="l">Large</option>
-		</select>
-		</td>
-	</tr>
-	<tr>
-		<td>Current Price Below</td>
-		<td><input type="text" name="currPrice"></td>
-	</tr>
-	<tr>
-		<td><input type="submit" value="Submit" /></td>
-	</tr>
-	</table>
-	</form>
-
 	<h1>View Current Auctions</h1>
-	<form method = "post" action="userHome.jsp">
+	<form method = "post" action="repHome.jsp">
 		<select name="resNum" onchange="this.form.submit()">
 			<option value="0">Select Number of Results</option>
 			<option value="10">Show 10 Results</option>
@@ -174,8 +112,6 @@ if(session.getAttribute("resNum") == null){
 				out.println("<td>Seller</td>");
 				out.println("<td>|</td>");
 				out.println("<td>Sold To</td>");
-				out.println("<td>|</td>");
-				out.println("<td></td>");
 				out.println("<td>|</td>");
 				out.println("</tr>");
 				do{
@@ -221,15 +157,10 @@ if(session.getAttribute("resNum") == null){
 						out.print(result.getString("soldTo"));
 						out.println("</td>");
 						out.println("<td>|</td>");
-						out.println("<td><form method = \"post\" action=\"ItemAuction.jsp\">");
-						out.println("<input type=\"hidden\" name=\"auctionNumber\" value=\""+ result.getString("auctionNum") +"\">");
-						out.println("<input type=\"submit\" value=\"Go To Auction\" />");
-						out.println("</form></td>");
-						out.println("<td>|</td>");
 						out.println("</tr>");
 					}
 				}while(result.next());
-				out.println("<form action=\'userHome.jsp\' method=\"post\">");
+				out.println("<form action=\'repHome.jsp\' method=\"post\">");
 				out.println("</table>");
 				out.println("<table>");
 				out.println("<tr>");

@@ -17,7 +17,7 @@
 		Connection con = db.getConnection();
 		Statement stat = con.createStatement();
 
-		ResultSet r1 = stat.executeQuery("SELECT itemName, COUNT(itemName) FROM AUCTION GROUP BY itemName ORDER BY COUNT(itemName)");
+		ResultSet r1 = stat.executeQuery("SELECT itemName, COUNT(itemName) FROM AUCTION GROUP BY itemName HAVING COUNT(itemName) = (SELECT max(p1) FROM (SELECT COUNT(itemName) as p1 FROM AUCTION GROUP BY itemName)q1)");
 		
 		out.println("<table>");
 		out.println("<tr>");

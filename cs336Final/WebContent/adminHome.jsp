@@ -21,7 +21,7 @@
 <h1>Welcome Administrator</h1>
 <br>
 <h2>Account Functions</h2>
-	<form method=post onsubmit="newAcct(this.form)" action="RegistrationAttempt.jsp">
+	<form method=post onsubmit="newAcct(this.form)" action="repCreateAttempt.jsp">
 	<h3>Create New Customer Representative</h3><br>
 	<table>
 		<tr>

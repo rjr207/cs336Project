@@ -37,7 +37,13 @@ try {
 	Statement stat0 = con.createStatement();
 
 	ResultSet result = stat.executeQuery("SELECT * from EMAIL where eid=\'"+ eid + "\'");
-	ResultSet userEaddr = stat0.executeQuery("SELECT eaddress from ENDUSER where username=\'"+ session.getAttribute("username") +"\'");
+	ResultSet userEaddr;
+	
+	if(session.getAttribute("usrlvl").equals("user")){
+		userEaddr = stat0.executeQuery("SELECT eaddress from ENDUSER where username=\'"+ session.getAttribute("username") +"\'");
+	}else{
+		userEaddr = stat0.executeQuery("SELECT eaddress from CUSTOMERREPRESENTATIVE where username=\'"+ session.getAttribute("username") +"\'");
+	}
 	userEaddr.next();
 	
 	if(result.next()){

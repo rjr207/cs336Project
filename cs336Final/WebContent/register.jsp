@@ -10,7 +10,6 @@
 </head>
 <body>
 
-
 	<form method=post onsubmit="newAcct(this.form)" action="RegistrationAttempt.jsp">
 		<h3>Input Information</h3>
 		<table>

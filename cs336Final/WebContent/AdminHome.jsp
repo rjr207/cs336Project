@@ -9,7 +9,6 @@
 <title>Administrator Home</title>
 </head>
 <body>
-
 <table>
 		<tr>
 			<td><input type="button" value="Home" onClick="window.location='adminHome.jsp';"></td>
@@ -46,7 +45,6 @@
 	</table>
 	</form>
 <br>
-
 	<form method=post onsubmit="deleteAcct(this.form)" action="userDeleteAttempt.jsp">
 	<h3>Delete Account</h3><br>
 	<table>

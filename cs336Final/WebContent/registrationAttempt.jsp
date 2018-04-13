@@ -1,4 +1,4 @@
-a <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
@@ -21,7 +21,6 @@ try{
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	
-	//check for used email
 	Statement q1 = con.createStatement();
 	//System.out.println("Attempting query:SELECT * from EMAILACCOUNT where eaddress=\'"+ eaddr +"\'");
 	ResultSet result = q1.executeQuery("SELECT * from EMAILACCOUNT where eaddress=\'"+ eaddr +"\'");
@@ -30,53 +29,28 @@ try{
 		con.close();
 		//System.out.println("Used email");
 		response.sendRedirect("register.jsp");
-		return;
 	}
 	
-	//check for used account (enduser)
+	//Make an insert statement for the emailaccount table:
+	String insert1 = "INSERT INTO EMAILACCOUNT(eaddress)" + " VALUES (\'" + eaddr + "\')";
+	
+	Statement s1 =con.createStatement();
+	
+	//System.out.println("Attempting query:"+insert1);
+	s1.executeUpdate(insert1);
+	
 	Statement q2 = con.createStatement();
 	//System.out.println("Attempting query:SELECT * from ENDUSER where username=\'"+ usr +"\'");
 	result = q2.executeQuery("SELECT * from ENDUSER where username=\'"+ usr +"\'");
 
 	if(result.next()){
 		con.close();
-		System.out.println("Used details: user");
+		System.out.println("Used details");
 		response.sendRedirect("register.jsp");
-		return;
 	}
-	
-	//check for used account (rep)
-	Statement q3 = con.createStatement();
-	//System.out.println("Attempting query:SELECT * from ENDUSER where username=\'"+ usr +"\'");
-	result = q3.executeQuery("SELECT * from CUSTOMERREPRESENTATIVE where username=\'"+ usr +"\'");
 
-	if(result.next()){
-		con.close();
-		System.out.println("Used details: rep");
-		response.sendRedirect("register.jsp");
-		return;
-	}
+	String insert2 = "INSERT INTO ENDUSER(username, password, address, eaddress, userlvl)" + " VALUES (\'"+usr+"\',\'"+pword+"\',\'"+addr+"\',\'"+eaddr+"\',\'"+access+"\')";
 	
-	//check for used account (admin)
-	Statement q4 = con.createStatement();
-	//System.out.println("Attempting query:SELECT * from ENDUSER where username=\'"+ usr +"\'");
-	result = q4.executeQuery("SELECT * from ADMIN where username=\'"+ usr +"\'");
-
-	if(result.next()){
-		con.close();
-		System.out.println("Used details: admin");
-		response.sendRedirect("register.jsp");
-		return;
-	}
-	
-	//Make an insert statement for the emailaccount table:
-	String insert1 = "INSERT INTO EMAILACCOUNT(eaddress)" + " VALUES (\'" + eaddr + "\')";
-	Statement s1 =con.createStatement();
-	//System.out.println("Attempting query:"+insert1);
-	s1.executeUpdate(insert1);
-	
-	//Make an insert statement for the enduser table:
-	String insert2 = "INSERT INTO ENDUSER(username, password, address, eaddress)" + " VALUES (\'"+usr+"\',\'"+pword+"\',\'"+addr+"\',\'"+eaddr+"\')";
 	Statement s2 =con.createStatement();
 
 	System.out.println("Attempting query:"+insert2);

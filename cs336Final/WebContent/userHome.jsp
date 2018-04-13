@@ -83,6 +83,7 @@ if(session.getAttribute("resNum") == null){
 			String username = (String)session.getAttribute("username");
 			String password = (String)session.getAttribute("password");
 
+
 			//close the connection.
 			con.close();
 		} catch (Exception e) {

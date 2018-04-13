@@ -14,6 +14,11 @@ String sender = request.getParameter("senderEaddr");
 String recipient = request.getParameter("targetEaddr");
 String content = request.getParameter("content");
 
+content = content.replaceAll("'", "\\\\'");
+content = content.replace("\"", "\\\"");
+
+out.println("Resulting string: " + content);
+
 try{
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	

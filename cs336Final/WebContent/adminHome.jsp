@@ -63,13 +63,13 @@
 	<h3>Sales Reports</h3><br>
 	<table>
 		<tr>
-			<td><input type="button" value="Total Earnings" onClick="window.location='genTotalSales.jsp';"></td>
-			<td><input type="button" value="Earnings Per Item" onClick="window.location='genItemSales.jsp';"></td>
-			<td><input type="button" value="Earnings Per End-User" onClick="window.location='genUserSales.jsp';"></td>
-			<td><input type="button" value="Best-Selling Item" onClick="window.location='genBestItem.jsp';"></td>
-			<td><input type="button" value="Best-Selling Item Type" onClick="window.location='genBestType.jsp';"></td>
-			<td><input type="button" value="Best-Selling User" onClick="window.location='genBestUser.jsp';"></td>
-			<td><input type="button" value="Best Buyer" onClick="window.location='genBestBuyer.jsp';"></td>
+			<td><input type="button" value="Total Earnings" onClick="window.location='Reports/genTotalSales.jsp';"></td>
+			<td><input type="button" value="Earnings Per Item" onClick="window.location='Reports/genItemSales.jsp';"></td>
+			<td><input type="button" value="Earnings Per End-User" onClick="window.location='Reports/genUserSales.jsp';"></td>
+			<td><input type="button" value="Best-Selling Item" onClick="window.location='Reports/genBestItem.jsp';"></td>
+			<td><input type="button" value="Best-Selling Item Type" onClick="window.location='Reports/genBestType.jsp';"></td>
+			<td><input type="button" value="Best-Selling User" onClick="window.location='Reports/genBestUser.jsp';"></td>
+			<td><input type="button" value="Best Buyer" onClick="window.location='Reports/genBestBuyer.jsp';"></td>
 		</tr>
 	</table><br>
 	<h3>Bid Removal</h3><br>

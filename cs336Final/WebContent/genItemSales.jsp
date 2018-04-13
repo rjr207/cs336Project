@@ -17,7 +17,7 @@
 		Connection con = db.getConnection();
 		Statement stat = con.createStatement();
 		
-		ResultSet r1 = stat.executeQuery("SELECT title, SUM(salePrice) FROM ITEMLISTING GROUP BY title ORDER BY SUM(salePrice)");
+		ResultSet r1 = stat.executeQuery("SELECT itemName, SUM(soldPrice) FROM AUCTION GROUP BY itemName ORDER BY SUM(soldPrice)");
 		
 		out.println("<table>");
 		out.println("<tr>");

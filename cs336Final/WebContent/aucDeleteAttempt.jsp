@@ -17,14 +17,14 @@ try{
 	Connection con = db.getConnection();
 	
 	Statement q1 = con.createStatement();
-	ResultSet result = q1.executeQuery("SELECT * from ITEMLISTING where aucid=\'"+auction+"\'");
+	ResultSet result = q1.executeQuery("SELECT * from AUCTION where auctionNum=\'"+auction+"\'");
 	if(!result.next()){
 		con.close();
 		System.out.println("Auction not found");
 		response.sendRedirect("adminHome.jsp");
 	}
 
-	String deleteAuc = "DELETE FROM ITEMLISTING where aucid=\'"+auction+"\'";
+	String deleteAuc = "DELETE FROM AUCTION where auctionNum=\'"+auction+"\'";
 	
 	Statement s1 =con.createStatement();
 	System.out.println("Attempting deletion:"+deleteAuc);

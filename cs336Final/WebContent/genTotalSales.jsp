@@ -17,7 +17,7 @@
 		Connection con = db.getConnection();
 		Statement stat = con.createStatement();
 
-		ResultSet r1 = stat.executeQuery("SELECT SUM(salePrice) FROM ITEMLISTING");
+		ResultSet r1 = stat.executeQuery("SELECT SUM(soldPrice) FROM AUCTION");
 		
 		while(r1.next()){
 			out.println(r1.getString(1));

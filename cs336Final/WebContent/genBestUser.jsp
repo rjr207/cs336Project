@@ -17,7 +17,7 @@
 		Connection con = db.getConnection();
 		Statement stat = con.createStatement();
 
-		ResultSet r1 = stat.executeQuery("SELECT MAX(SUM(salePrice)) FROM ITEMLISTING GROUP BY username");
+		ResultSet r1 = stat.executeQuery("SELECT MAX(SUM(soldPrice)) FROM AUCTION GROUP BY posterUsername");
 		
 		while(r1.next()){
 			out.println(r1.getString(1));

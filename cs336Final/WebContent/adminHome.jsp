@@ -21,8 +21,7 @@
 <h1>Welcome Administrator</h1>
 <br>
 <h2>Account Functions</h2>
-	<form method=post onsubmit="newAcct(this.form)" action="registrationAttempt.jsp">
-	<input type="hidden" name="userlvl" value="2">
+	<form method=post onsubmit="newAcct(this.form)" action="RegistrationAttempt.jsp">
 	<h3>Create New Customer Representative</h3><br>
 	<table>
 		<tr>
@@ -47,7 +46,7 @@
 	</table>
 	</form>
 <br>
-	<form method=post onsubmit="deleteAcct(this.form)" action="usrDeleteAttempt.jsp">
+	<form method=post onsubmit="deleteAcct(this.form)" action="userDeleteAttempt.jsp">
 	<h3>Delete Account</h3><br>
 	<table>
 		<tr>

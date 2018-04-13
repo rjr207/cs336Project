@@ -17,7 +17,7 @@
 		Connection con = db.getConnection();
 		Statement stat = con.createStatement();
 
-		ResultSet r1 = stat.executeQuery("SELECT title, COUNT(title) FROM ITEMLISTING GROUP BY title ORDER BY COUNT(title)");
+		ResultSet r1 = stat.executeQuery("SELECT itemName, COUNT(itemName) FROM AUCTION GROUP BY itemName ORDER BY COUNT(itemName)");
 		
 		out.println("<table>");
 		out.println("<tr>");

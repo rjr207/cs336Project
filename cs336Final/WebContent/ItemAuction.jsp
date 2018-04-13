@@ -9,7 +9,12 @@
 <title>Auction Info</title>
 </head>
 <body>
-
+<table>
+<%
+try {
+	
+	String username = (String)session.getAttribute("username");
+	%>
 	<table>
 		<tr>
 			<td><input type="button" value="Home" onClick="window.location='userHome.jsp';"></td>
@@ -21,17 +26,19 @@
 	</table>
 	<table>
 <%
-int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
+	int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
 
-try {
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	Statement stat = con.createStatement();
 	ResultSet result = stat.executeQuery("SELECT * from AUCTION where auctionNum=\'"+ auctionNum + "\'");
+	ResultSet alerts = null;
+	String itemName = "";
 	if(result.next()){
+		itemName = result.getString("itemName");
 		%>
-		<tr><td>Item Name: <%out.println(result.getString("itemName"));%></td></tr>
+		<tr><td>Item Name: <%out.println(itemName);%></td></tr>
 		<tr><td>Starting Price: $<%out.println(result.getDouble("startingPrice"));%></td></tr>
 		<tr><td>Reserve Price: $<%out.println(result.getDouble("reservePrice"));%></td></tr>
 		<tr><td>Sock Type: <%out.println(result.getString("itemType"));%></td></tr>
@@ -40,6 +47,9 @@ try {
 		<tr><td>Auction End Date: <%out.println(result.getString("duration"));%></td></tr>
 		<tr><td>Seller: <%out.println(result.getString("posterUsername"));%></td></tr>
 		<%
+		alerts = con.createStatement().executeQuery("SELECT * from ALERTS where username=\'"+ username + "\' AND itemWanted=\'"+ itemName +"\'");
+		//alerts = con.createStatement().executeQuery("SELECT * from ALERTS where username=\'test\'");
+
 	}
 	else{
 		//Unable to find item
@@ -50,6 +60,7 @@ try {
 </table>
 
 <br><p>Interested in this item? Place a bid!</p>
+
 <form method=post action=bidCreateAttempt.jsp>
 <input type="hidden" name="listingNumber" value=auctionNum>
 <table>
@@ -64,12 +75,36 @@ try {
 </table>
 </form>
 
-<%result = stat.executeQuery("SELECT * from BID where auctionNum=\'"+ auctionNum + "\'"); %>
+<%ResultSet bids = stat.executeQuery("SELECT * from BID where auctionNum=\'"+ auctionNum + "\'"); %>
 
 <p>Bid History</p>
 <table>
-<%while(result.next()){
-	out.println("<tr>Amount: $" + result.getString("bidAmount") + " Bidder: " + result.getString("placedByUsername") + "</tr>");
+<%while(bids.next()){
+	out.println("<tr>Amount: $" + bids.getString("bidAmount") + " Bidder: " + bids.getString("placedByUsername") + "</tr>");
+}%>
+</table>
+
+<p>Get notified if an item like this one is posted</p>
+<%
+if(alerts != null && alerts.next()){
+	out.println("<p>Alert already enabled</p>");
+}
+else{%>
+	<form method=post action=enableAlert.jsp>
+		<p hidden name="auctionNum"><%out.println(auctionNum); %></p>
+		<p hidden name="itemName"><% out.println(itemName); %></p>
+		<p>Duration of alert (Input Format: YYYY-MM-DD HH:MI:SS)</p>
+		<input type="text" name="datetime">
+		<input type="submit" value="Submit">
+	</form>
+<%}%>
+
+<p>Similar Items</p>
+<table>
+<%
+ResultSet similar = con.createStatement().executeQuery("SELECT * from AUCTION where itemName=\'"+ itemName + "\' AND auctionNum <> "+ auctionNum);
+while(similar.next()){
+	out.println("<tr>" + similar.getString("itemName") + " Size: " + similar.getString("itemSize") + " Color: "+similar.getString("itemColor")+"</tr>");
 }%>
 </table>
 

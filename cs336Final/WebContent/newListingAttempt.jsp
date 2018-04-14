@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@ page import="java.time.format.DateTimeFormatter,java.time.LocalDateTime"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,16 +18,23 @@ String color  = request.getParameter("itemColor");
 String size = request.getParameter("itemSize");
 String start = request.getParameter("startingPrice");
 String res  = request.getParameter("reservePrice");
-String time  = request.getParameter("duration");
+int time  = Integer.parseInt(request.getParameter("duration"));
 int initialBid = 0;
 try{
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	
+	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+	 LocalDateTime dateEntry = LocalDateTime.now();
+	 dateEntry.plusDays(time);
+	 String dateTime = dtf.format(dateEntry);
+	 
+	   
 	//Make an insert statement for the auction table
 	String i1 = "INSERT INTO AUCTION(startingPrice, reservePrice, itemName, itemType, itemColor, itemSize, duration, posterUsername)" +
-		" VALUES (\'"+ start +"\',\'"+ res +"\',\'"+ title +"\',\'"+ style +"\',\'"+ color +"\',\'"+ size +"\',\'"+ time +"\',\'" + usr + "\')";
+		" VALUES (\'"+ start +"\',\'"+ res +"\',\'"+ title +"\',\'"+ style +"\',\'"+ color +"\',\'"+ size +"\',\'"+ dateEntry +"\',\'" + usr + "\')";
+	out.println("Attempting auction: " + i1);
 	//Execute insert
 	Statement s1 = con.createStatement();
 	s1.executeUpdate(i1);

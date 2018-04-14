@@ -102,7 +102,7 @@ else{%>
 <p>Similar Items</p>
 <table>
 <%
-ResultSet similar = con.createStatement().executeQuery("SELECT * from AUCTION where itemName=\'"+ itemName + "\' AND auctionNum <> "+ auctionNum);
+ResultSet similar = con.createStatement().executeQuery("SELECT * from AUCTION where itemName=\'"+ itemName + "\' AND auctionNum <> "+ auctionNum + " AND posterUsername <> \'"+username+"\'");
 while(similar.next()){
 	out.println("<tr>" + similar.getString("itemName") + " Size: " + similar.getString("itemSize") + " Color: "+similar.getString("itemColor"));
 	out.println("<form method=post action=ItemAuction.jsp><input type=\"hidden\" name=\"auctionNumber\" value=\""+ similar.getString("auctionNum")+"\">");

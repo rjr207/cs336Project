@@ -14,12 +14,12 @@
 	<table>
 	<tr>
 		<td>Auction Title</td>
-		<td><input type="text" name="title"></td>
+		<td><input type="text" name="itemName"></td>
 	</tr>
 	<tr>
 		<td>Sock Style</td>
 		<td>
-		<select name="sockStyle">
+		<select name="itemType">
 			<option value="knee">Knee</option>
 			<option value="crew">Crew</option>
 			<option value="ankle">Ankle</option>
@@ -28,12 +28,12 @@
 	</tr>
 	<tr>
 		<td>Color</td>
-		<td><input type="text" name="color"></td>
+		<td><input type="text" name="itemColor"></td>
 	</tr>
 	<tr>
 		<td>Size</td>
 		<td>
-			<select name="sockSize">
+			<select name="itemSize">
 			<option value="small">Small</option>
 			<option value="medium">Medium</option>
 			<option value="large">Large</option>
@@ -41,20 +41,16 @@
 		</td>
 	</tr>
 	<tr>
-		<td>Quantity</td>
-		<td><input type="text" name="quantity"></td>
-	</tr>
-	<tr>
 		<td>Starting Price</td>
-		<td><input type="text" name="startPrice"></td>
+		<td><input type="text" name="startingPrice"></td>
 	</tr>
 	<tr>
 		<td>Reserve Price</td>
-		<td><input type="text" name="resPrice"></td>
+		<td><input type="text" name="reservePrice"></td>
 	</tr>
 	<tr>
-		<td>Auction Duration (Number of Full 24-hour Days)</td>
-		<td><input type="text" name="days"></td>
+		<td>Duration</td>
+		<td><input type="text" name="duration"></td>
 	</tr>
 	<tr>
 		<td><input type="submit" value="submit" /></td>

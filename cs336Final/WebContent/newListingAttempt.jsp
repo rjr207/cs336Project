@@ -18,6 +18,7 @@ String size = request.getParameter("itemSize");
 String start = request.getParameter("startingPrice");
 String res  = request.getParameter("reservePrice");
 String time  = request.getParameter("duration");
+int initialBid = 0;
 try{
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
@@ -26,11 +27,24 @@ try{
 	//Make an insert statement for the auction table
 	String i1 = "INSERT INTO AUCTION(startingPrice, reservePrice, itemName, itemType, itemColor, itemSize, duration, posterUsername)" +
 		" VALUES (\'"+ start +"\',\'"+ res +"\',\'"+ title +"\',\'"+ style +"\',\'"+ color +"\',\'"+ size +"\',\'"+ time +"\',\'" + usr + "\')";
-	
 	//Execute insert
-	Statement s1 =con.createStatement();
-	s1.executeUpdate(i1);}
+	Statement s1 = con.createStatement();
+	s1.executeUpdate(i1);
+
+	Statement q1 = con.createStatement();
+	ResultSet r1 = q1.executeQuery("SELECT LAST_INSERT_ID()");
+	
+	while(r1.next()){
+		//Make an insert statement for the bid table
+		String i2 = "INSERT INTO BID(bidAmount) where auctionNum=\'"+ r1.getString(1) +"\')" +
+			" VALUES (\'"+ initialBid +"\')";
+		//Execute insert
+		Statement s2 = con.createStatement();
+		s1.executeUpdate(i2);
+	}
+	
 	//Need to redirect to item display page here....
+	}
 catch(Exception e){
 e.printStackTrace();
 }

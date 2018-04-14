@@ -19,7 +19,7 @@ try {
 	Connection con = db.getConnection();
 	int result = 0;
 	//if(auctionNum != null)
-		result = con.createStatement().executeUpdate("INSERT INTO ALERTS VALUES (\'" + username + "\'), (\'" + itemName + "\'), (" + request.getParameter("datetime") + "), (" + auctionNum + ")." );
+		result = con.createStatement().executeUpdate("INSERT INTO ALERTS VALUES (\'" + username + "\'), (\'" + itemName + "\'), (\'" + request.getParameter("datetime") + "\'), (" + auctionNum + ")" );
 	if(result == 1)
 		out.println("<p>Alert Created Succesfully</p>");
 	else

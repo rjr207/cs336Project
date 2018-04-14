@@ -26,26 +26,29 @@ try {
 	</table>
 	<table>
 <%
+	String auctionTmp = request.getParameter("auctionNumber");
+	session.setAttribute("currentAuction", auctionTmp);
 	int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
+	ResultSet r1, r2, r3;
 
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	Statement stat = con.createStatement();
-	ResultSet result = stat.executeQuery("SELECT * from AUCTION where auctionNum=\'"+ auctionNum + "\'");
+	r1 = stat.executeQuery("SELECT * from AUCTION where auctionNum=\'"+ auctionNum + "\'");
 	ResultSet alerts = null;
 	String itemName = "";
-	if(result.next()){
-		itemName = result.getString("itemName");
+	if(r1.next()){
+		itemName = r1.getString("itemName");
 		%>
 		<tr><td>Item Name: <%out.println(itemName);%></td></tr>
-		<tr><td>Starting Price: $<%out.println(result.getDouble("startingPrice"));%></td></tr>
-		<tr><td>Reserve Price: $<%out.println(result.getDouble("reservePrice"));%></td></tr>
-		<tr><td>Sock Type: <%out.println(result.getString("itemType"));%></td></tr>
-		<tr><td>Color: <%out.println(result.getString("itemColor"));%></td></tr>
-		<tr><td>Size: <%out.println(result.getString("itemSize"));%></td></tr>
-		<tr><td>Auction End Date: <%out.println(result.getString("duration"));%></td></tr>
-		<tr><td>Seller: <%out.println(result.getString("posterUsername"));%></td></tr>
+		<tr><td>Starting Price: $<%out.println(r1.getDouble("startingPrice"));%></td></tr>
+		<tr><td>Reserve Price: $<%out.println(r1.getDouble("reservePrice"));%></td></tr>
+		<tr><td>Sock Type: <%out.println(r1.getString("itemType"));%></td></tr>
+		<tr><td>Color: <%out.println(r1.getString("itemColor"));%></td></tr>
+		<tr><td>Size: <%out.println(r1.getString("itemSize"));%></td></tr>
+		<tr><td>Auction End Date: <%out.println(r1.getString("duration"));%></td></tr>
+		<tr><td>Seller: <%out.println(r1.getString("posterUsername"));%></td></tr>
 		<%
 		alerts = con.createStatement().executeQuery("SELECT * from ALERTS where username=\'"+ username + "\' AND itemWanted=\'"+ itemName +"\'");
 		//alerts = con.createStatement().executeQuery("SELECT * from ALERTS where username=\'test\'");
@@ -56,13 +59,17 @@ try {
 		System.out.println("Unable to find item");
 		//response.sendRedirect("login.jsp");
 	}
-%>
+		
+	r2 = stat.executeQuery("SELECT max(bidAmount) from BID where auctionNum=\'"+ auctionNum + "\'");
+	if(r2.next()){
+		%>
+		<tr><td>Current Max Bid: <%out.println(r2.getString("max(bidAmount)"));%></td></tr><%
+}%>
 </table>
 
 <br><p>Interested in this item? Place a bid!</p>
 
 <form method=post action=bidCreateAttempt.jsp>
-<input type="hidden" name="listingNumber" value=auctionNum>
 <table>
 	<tr><td>Bid Amount: <input type="text" name="bidAmount"></td></tr>
 	<tr><td>AudoBid Max : <input type="text" name="autoBidMax"></td></tr>
@@ -75,15 +82,15 @@ try {
 </table>
 </form>
 
-<%ResultSet bids = stat.executeQuery("SELECT * from BID where auctionNum=\'"+ auctionNum + "\'"); %>
+<%r3 = stat.executeQuery("SELECT * from BID where auctionNum=\'"+ auctionNum + "\'"); %>
 
 <p>Bid History</p>
 <table>
 <%
 boolean noBids = true;
-while(bids.next()){
+while(r3.next()){
 	noBids = false;
-	out.println("<tr>Amount: $" + bids.getString("bidAmount") + " Bidder: " + bids.getString("placedByUsername") + "</tr>");
+	out.println("<tr>Amount: $" + r3.getString("bidAmount") + " Bidder: " + r3.getString("placedByUsername") + "</tr>");
 }
 if(noBids)
 	out.println("Currently no bids for this item");

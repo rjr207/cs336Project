@@ -12,8 +12,7 @@
 <%
 try {
 	
-	//Not yet sure how to get username so using static variable
-	String username = "dave";
+	String username = (String)session.getAttribute("username");
 	
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
@@ -31,27 +30,43 @@ try {
 		System.out.println("Unable to find user with given username");
 	
 	out.println("<br><p>Previously Sold Items</p>");
+	boolean exist = false;
 	while(soldItems.next()){
+		exist = true;
 		out.println("<p>Item: "+soldItems.getString("itemName") + " Type: "+soldItems.getString("itemType") +" Size: " +soldItems.getString("itemSize") + " Color: "+soldItems.getString("itemColor") +"</p>");
 	}
+	if(!exist)
+		out.println("<p>Currently no items sold");
 	
 	out.println("<br><p>Previous Bids</p>");
+	exist = false;
 	while(previousBids.next()){
+		exist = true;
 		out.println( "<p>Item: " + previousBids.getString("itemName") + "&nbsp;&nbsp;Amount : $" + previousBids.getDouble("bidAmount") + "</p>" );
 	}
+	if(!exist)
+		out.println("No previous bids");
 	
 	out.println("<br><p>Items Won</p>");
+	exist = false;
 	while(itemsWon.next()){
+		exist = true;
 		out.println("<p>Item: " + itemsWon.getString("itemName") + "</p>");
 	}
+	if(!exist)
+		out.println("No items won");
 	
 
 	
 	if(session.getAttribute("username").equals(username)){
 		out.println("<br><p>Alerts<p>");
+		exist = false;
 		while(alerts.next()){
+			exist = true;
 			out.println("<p>Item: " + alerts.getString("itemWanted") + " Duration: " + alerts.getString("duration"));
 		}
+		if(!exist)
+			out.println("No Alerts Set");
 		%>
 		<br>If you would like to change your password, enter your new password: 
 		<form method=post action=changePassAttempt.jsp> 

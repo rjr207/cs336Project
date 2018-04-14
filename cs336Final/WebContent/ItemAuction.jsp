@@ -79,9 +79,15 @@ try {
 
 <p>Bid History</p>
 <table>
-<%while(bids.next()){
+<%
+boolean noBids = true;
+while(bids.next()){
+	noBids = false;
 	out.println("<tr>Amount: $" + bids.getString("bidAmount") + " Bidder: " + bids.getString("placedByUsername") + "</tr>");
-}%>
+}
+if(noBids)
+	out.println("Currently no bids for this item");
+%>
 </table>
 
 <p>Get notified if an item like this one is posted</p>

@@ -91,6 +91,7 @@ if(session.getAttribute("messResNum") == null){
 		int needToPass = numRows*pagNum;
 		int currRow = 1;
 		int prevRows = 0;
+
 		try {
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
@@ -126,7 +127,9 @@ if(session.getAttribute("messResNum") == null){
 				out.println("<td>|</td>");
 				out.println("<td>Recipient</td>");
 				out.println("<td>|</td>");
-				out.println("<td>Preview</td>");
+				out.println("<td>Subject</td>");
+				out.println("<td>|</td>");
+				out.println("<td>Time Sent</td>");
 				out.println("<td>|</td>");
 				out.println("<td></td>");
 				out.println("<td>|</td>");
@@ -153,11 +156,11 @@ if(session.getAttribute("messResNum") == null){
 						out.println("</td>");
 						out.println("<td>|</td>");
 						out.print("<td>");
-						if(result.getString("contents") != null){
-							out.print(result.getString("contents").substring(0, Math.min(result.getString("contents").length(), 10)) + "...");
-						}else{
-							out.println("");
-						}
+						out.print(result.getString("subject"));
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.print("<td>");
+						out.print(result.getString("timeSent"));
 						out.println("</td>");
 						out.println("<td>|</td>");
 						out.println("<td><form method = \"post\" action=\"viewMessage.jsp\">");

@@ -38,7 +38,7 @@
 				whereAdded = true;
 			}
 			//color specified
-			if(request.getParameter("color") != null){
+			if(request.getParameter("color").equals(null)){
 				if(whereAdded){
 					searchCriteria = searchCriteria + " AND " + "itemColor=\'"+ request.getParameter("color") + "\'";
 				}else{

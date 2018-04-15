@@ -50,6 +50,8 @@ try {
 		
 		out.println("<h4>Sender: " + result.getString("sender") +"</h4>");
 		out.println("<h4>Recipient: " + result.getString("recipient") +"</h4>");
+		out.println("<h4>Time sent: " + result.getString("timeSent") +"</h4>");
+		out.println("<h4>Subject: " + result.getString("subject") +"</h4>");
 		out.println("<h4>Contents:</h4>");
 		out.println(result.getString("contents"));
 		

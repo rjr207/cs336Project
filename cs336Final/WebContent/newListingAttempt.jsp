@@ -27,7 +27,9 @@ try{
 	
 	 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
 	 LocalDateTime dateEntry = LocalDateTime.now();
-	 dateEntry.plusDays(time);
+	 //out.println("Old date: "+ dtf.format(dateEntry));
+	 dateEntry = dateEntry.plusDays(time);
+	 //out.println("New date: "+ dtf.format(dateEntry));
 	 String dateTime = dtf.format(dateEntry);
 	 
 	   

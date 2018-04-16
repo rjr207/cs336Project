@@ -209,8 +209,8 @@ if(session.getAttribute("resNum") == null){
 						currStartingPrice = Double.parseDouble(result.getString("startingPrice"));
 						highestBid.next();
 						if(highestBid.getDouble(1) >= currStartingPrice){
-							out.print(highestBid.getInt(1));
-							out.print("HighestBidNum");
+							out.print(highestBid.getDouble(1));
+							//out.print("HighestBidNum");
 						}else{
 							out.print(result.getString("startingPrice"));
 						}

@@ -12,10 +12,10 @@
 <%
 String usr = (String)session.getAttribute("username");
 int aucNum = Integer.parseInt((String)session.getAttribute("currentAuction"));
-int bid = Integer.parseInt((String)request.getParameter("bidAmount"));
+double bid = Double.parseDouble((String)request.getParameter("bidAmount"));
 String pay = request.getParameter("payment");
 String auto = request.getParameter("autoBidMax");
-int currentBid = 0;
+double currentBid = 0;
 
 try{
 
@@ -29,11 +29,17 @@ try{
 	ResultSet r1;
 	r1 = q1.executeQuery("SELECT MAX(bidAmount) from BID where auctionNum =\'"+ aucNum +"\' ");
 	while(r1.next()){
-		currentBid = r1.getInt(1);
+		currentBid = r1.getDouble(1);
+	}
+	if(currentBid >= Double.parseDouble(request.getParameter("startingPrice"))){
+		//currentBid is accurate
+	}else{
+		currentBid = Double.parseDouble(request.getParameter("startingPrice"));
 	}
 		
 	if(bid <= currentBid){
 		System.out.println("Invalid bid");
+		con.close();
 		response.sendRedirect("userHome.jsp");
 	}
 	else{
@@ -41,14 +47,16 @@ try{
 		String i1 = "INSERT INTO BID(bidAmount, paymentMethod, timePlaced, placedByUsername, auctionNum)" + " VALUES (\'"+bid+"\',\'"+pay+"\',\'"+time+"\',\'"+usr+"\', \'"+aucNum+"\')";
 			
 		//Execute insert
-		Statement s1 =con.createStatement();
-		s1.executeUpdate(i1);
+		Statement s2 =con.createStatement();
+		s2.executeUpdate(i1);
+		con.close();
+		response.sendRedirect("userHome.jsp");
 	}
+	
 
 }catch(Exception e){
 e.printStackTrace();
 }
-
 %>
 </body>
 </html>

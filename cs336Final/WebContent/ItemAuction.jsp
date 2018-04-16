@@ -35,6 +35,7 @@ try {
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
 	Statement stat = con.createStatement();
+	Statement stat2 = con.createStatement();
 	r1 = stat.executeQuery("SELECT * from AUCTION where auctionNum=\'"+ auctionNum + "\'");
 	ResultSet alerts = null;
 	String itemName = "";
@@ -60,7 +61,7 @@ try {
 		//response.sendRedirect("login.jsp");
 	}
 		
-	r2 = stat.executeQuery("SELECT max(bidAmount) from BID where auctionNum=\'"+ auctionNum + "\'");
+	r2 = stat2.executeQuery("SELECT max(bidAmount) from BID where auctionNum=\'"+ auctionNum + "\'");
 	if(r2.next()){
 		%>
 		<tr><td>Current Max Bid: <%out.println(r2.getString("max(bidAmount)"));%></td></tr><%
@@ -70,10 +71,11 @@ try {
 <br><p>Interested in this item? Place a bid!</p>
 
 <form method=post action=bidCreateAttempt.jsp>
+<%out.println("<input type=\"hidden\" name=\"startingPrice\" value=\""+ r1.getDouble("startingPrice") +"\">");%>
 <table>
 	<tr><td>Bid Amount: <input type="text" name="bidAmount"></td></tr>
 	<tr><td>AudoBid Max : <input type="text" name="autoBidMax"></td></tr>
-	<tr><td>Payment Method: <select>
+	<tr><td>Payment Method: <select name="payment">
 		<option value="Credit">Credit/Debit</option>
 		<option value="PayPal">PayPal</option>
 		<option value="BitCoin">BitCoin</option>

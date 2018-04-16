@@ -43,17 +43,23 @@ try{
 
 	Statement q1 = con.createStatement();
 	ResultSet r1 = q1.executeQuery("SELECT LAST_INSERT_ID()");
+	String auctionNum;
 	
-	while(r1.next()){
+	r1.next();
+	auctionNum = r1.getString(1);
+	
+	
+	/*while(r1.next()){
 		//Make an insert statement for the bid table
 		String i2 = "INSERT INTO BID(bidAmount) where auctionNum=\'"+ r1.getString(1) +"\')" +
 			" VALUES (\'"+ initialBid +"\')";
 		//Execute insert
 		Statement s2 = con.createStatement();
 		s1.executeUpdate(i2);
-	}
+	}*/
 	
-	//Need to redirect to item display page here....
+	con.close();
+	response.sendRedirect("userHome.jsp");
 	}
 catch(Exception e){
 e.printStackTrace();

@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
+<%@ page import="java.time.format.DateTimeFormatter,java.time.LocalDateTime"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,10 +17,11 @@ double bid = Double.parseDouble((String)request.getParameter("bidAmount"));
 String pay = request.getParameter("payment");
 String auto = request.getParameter("autoBidMax");
 double currentBid = 0;
+DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
+LocalDateTime dateEntry = LocalDateTime.now();
+String time = dtf.format(dateEntry);
 
 try{
-
-	java.sql.Date time =new java.sql.Date(new java.util.Date().getTime());
 	
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	

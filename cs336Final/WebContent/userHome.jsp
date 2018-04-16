@@ -153,9 +153,29 @@ if(session.getAttribute("resNum") == null){
 			Connection con = db.getConnection();
 			Statement stat = con.createStatement();
 			Statement stat2 = con.createStatement();
+			Statement stat3 = con.createStatement();
+			Statement sell;
+			String sellUpdate;
+			ResultSet HighestSaleBid;
+			
+
 			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 			//NOTE: for now, only looks for auctions, not active auctions
-			ResultSet result = stat.executeQuery("SELECT * from AUCTION");
+			ResultSet result = stat.executeQuery("SELECT * from AUCTION WHERE duration>NOW()");
+			/*ResultSet expiredAuctions = stat3.executeQuery("SELECT * from AUCTION WHERE duration<=NOW()");
+			while(expiredAuctions.next()){
+				System.out.println("Attempting query:"+"SELECT placedByUsername FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\' AND bidAmount = (SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\')");
+				HighestSaleBid = stat2.executeQuery("SELECT placedByUsername FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\' AND bidAmount = (SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\')");
+				
+				if(HighestSaleBid.next()){//HighestSaleBid.getDouble(1) >= currStartingPrice
+					System.out.println("Attempting update: " + "UPDATE AUCTION SET soldTo = \'" + HighestSaleBid.getString(1) + "\' WHERE auctionNum="+ expiredAuctions.getString("auctionNum")+"");
+					sellUpdate = "UPDATE AUCTION SET soldTo = \'" + HighestSaleBid.getString(1) + "\' WHERE auctionNum="+ expiredAuctions.getString("auctionNum")+"";
+					sell =con.createStatement();
+					sell.executeUpdate(sellUpdate);
+				}
+				
+				
+			}*/
 			ResultSet highestBid;
 			
 			//There are ongoing auctions

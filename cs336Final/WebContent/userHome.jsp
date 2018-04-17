@@ -162,7 +162,7 @@ if(session.getAttribute("resNum") == null){
 			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 			//NOTE: for now, only looks for auctions, not active auctions
 			ResultSet result = stat.executeQuery("SELECT * from AUCTION WHERE duration>NOW()");
-			/*ResultSet expiredAuctions = stat3.executeQuery("SELECT * from AUCTION WHERE duration<=NOW()");
+			ResultSet expiredAuctions = stat3.executeQuery("SELECT * from AUCTION WHERE duration<=NOW()");
 			while(expiredAuctions.next()){
 				System.out.println("Attempting query:"+"SELECT placedByUsername FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\' AND bidAmount = (SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\')");
 				HighestSaleBid = stat2.executeQuery("SELECT placedByUsername FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\' AND bidAmount = (SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\')");
@@ -175,7 +175,7 @@ if(session.getAttribute("resNum") == null){
 				}
 				
 				
-			}*/
+			}
 			ResultSet highestBid;
 			
 			//There are ongoing auctions

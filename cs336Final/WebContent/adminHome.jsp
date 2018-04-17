@@ -12,6 +12,7 @@
 <table>
 		<tr>
 			<td><input type="button" value="Home" onClick="window.location='adminHome.jsp';"></td>
+			<td><input type="button" value="Messages" onClick="window.location='messages.jsp';"></td>
 			<td><input type="button" value="Account" onClick="window.location='accountInfo.jsp';"></td>
 			<td><input type="button" value="Log Out" onClick="window.location='login.jsp';"></td>
 		
@@ -72,6 +73,12 @@
 		</tr>
 	</table><br>
 	<h3>Bid Removal</h3><br>
+		<table>
+	<tr>
+		<td><input type="button" value="Remove a Bid" onClick="window.location='removeBidAttempt.jsp';"></td>
+	</tr>
+	</table>
+	
 	
 	<form method=post onsubmit="deleteAuc(this.form)" action="aucDeleteAttempt.jsp">
 	<h3>Delete Auction</h3><br>
@@ -88,6 +95,11 @@
 	
 	<h3>Browse Auctions</h3>
 	
+	<table>
+	<tr>
+		<td><input type="button" value="Auctions" onClick="window.location='userHome.jsp';"></td>
+	</tr>
+	</table>
 
 </body>
 </html>

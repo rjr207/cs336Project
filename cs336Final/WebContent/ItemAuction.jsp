@@ -15,7 +15,6 @@ try {
 	
 	String username = (String)session.getAttribute("username");
 	%>
-	<table>
 		<tr>
 			<td><input type="button" value="Home" onClick="window.location='userHome.jsp';"></td>
 			<td><input type="button" value="Messages" onClick="window.location='messages.jsp';"></td>
@@ -26,11 +25,11 @@ try {
 	</table>
 	<table>
 <%
-	String auctionTmp = request.getParameter("auctionNumber");
-	session.setAttribute("currentAuction", auctionTmp);
-	int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
-	ResultSet r1, r2, r3;
-
+String auctionTmp = request.getParameter("auctionNumber");
+session.setAttribute("currentAuction", auctionTmp);
+int auctionNum = Integer.parseInt(request.getParameter("auctionNumber"));
+ResultSet r1, r2, r3;
+	
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();
@@ -42,36 +41,32 @@ try {
 	if(r1.next()){
 		itemName = r1.getString("itemName");
 		%>
-		<tr><td>Item Name: <%out.println(itemName);%></td></tr>
+		<tr><td>Item Name: <%out.println(r1.getString("itemName"));%></td></tr>
 		<tr><td>Starting Price: $<%out.println(r1.getDouble("startingPrice"));%></td></tr>
 		<tr><td>Reserve Price: $<%out.println(r1.getDouble("reservePrice"));%></td></tr>
 		<tr><td>Sock Type: <%out.println(r1.getString("itemType"));%></td></tr>
 		<tr><td>Color: <%out.println(r1.getString("itemColor"));%></td></tr>
 		<tr><td>Size: <%out.println(r1.getString("itemSize"));%></td></tr>
-		<tr><td>Auction End Date: <%out.println(r1.getString("duration"));%></td></tr>
+		<tr><td>Auction Ends In: <%out.println(r1.getString("duration"));%></td></tr>
 		<tr><td>Seller: <%out.println(r1.getString("posterUsername"));%></td></tr>
 		<%
 		alerts = con.createStatement().executeQuery("SELECT * from ALERTS where username=\'"+ username + "\' AND itemWanted=\'"+ itemName +"\'");
-		//alerts = con.createStatement().executeQuery("SELECT * from ALERTS where username=\'test\'");
-
 	}
 	else{
 		//Unable to find item
 		System.out.println("Unable to find item");
 		//response.sendRedirect("login.jsp");
 	}
-		
+	
 	r2 = stat2.executeQuery("SELECT max(bidAmount) from BID where auctionNum=\'"+ auctionNum + "\'");
 	if(r2.next()){
 		%>
 		<tr><td>Current Max Bid: <%out.println(r2.getString("max(bidAmount)"));%></td></tr><%
-}%>
+	} %>
 </table>
 
 <br><p>Interested in this item? Place a bid!</p>
-
 <form method=post action=bidCreateAttempt.jsp>
-<%out.println("<input type=\"hidden\" name=\"startingPrice\" value=\""+ r1.getDouble("startingPrice") +"\">");%>
 <table>
 	<tr><td>Bid Amount: <input type="text" name="bidAmount"></td></tr>
 	<tr><td>AudoBid Max : <input type="text" name="autoBidMax"></td></tr>
@@ -85,7 +80,6 @@ try {
 </form>
 
 <%r3 = stat.executeQuery("SELECT * from BID where auctionNum=\'"+ auctionNum + "\'"); %>
-
 <p>Bid History</p>
 <table>
 <%

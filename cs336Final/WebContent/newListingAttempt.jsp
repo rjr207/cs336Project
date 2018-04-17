@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
-<%@ page import="java.time.format.*,java.time.*"%>
+<%@ page import="java.time.format.DateTimeFormatter,java.time.LocalDateTime"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -19,7 +19,7 @@ String size = request.getParameter("itemSize");
 String start = request.getParameter("startingPrice");
 String res  = request.getParameter("reservePrice");
 int time  = Integer.parseInt(request.getParameter("duration"));
-int initialBid = 0;
+
 try{
 	//Get the database connection
 	ApplicationDB db = new ApplicationDB();	
@@ -36,11 +36,11 @@ try{
 	//Make an insert statement for the auction table
 	String i1 = "INSERT INTO AUCTION(startingPrice, reservePrice, itemName, itemType, itemColor, itemSize, duration, posterUsername)" +
 		" VALUES (\'"+ start +"\',\'"+ res +"\',\'"+ title +"\',\'"+ style +"\',\'"+ color +"\',\'"+ size +"\',\'"+ dateEntry +"\',\'" + usr + "\')";
-	out.println("Attempting auction: " + i1);
+	//out.println("Attempting auction: " + i1);
 	//Execute insert
 	Statement s1 = con.createStatement();
 	s1.executeUpdate(i1);
-
+	
 	Statement q1 = con.createStatement();
 	ResultSet r1 = q1.executeQuery("SELECT LAST_INSERT_ID()");
 	String auctionNum;
@@ -48,17 +48,13 @@ try{
 	r1.next();
 	auctionNum = r1.getString(1);
 	
-	
-	/*while(r1.next()){
-		//Make an insert statement for the bid table
-		String i2 = "INSERT INTO BID(bidAmount) where auctionNum=\'"+ r1.getString(1) +"\')" +
-			" VALUES (\'"+ initialBid +"\')";
-		//Execute insert
-		Statement s2 = con.createStatement();
-		s1.executeUpdate(i2);
-	}*/
-	
-	con.close();
+	//Make an insert statement for the bid table
+	String i2 = "INSERT INTO BID(bidAmount, paymentMethod, timePlaced, placedByUsername, auctionNum, removedByUsername) where auctionNum=\'" + auctionNum + "\')" +
+			" VALUES (\'"+ start +"\', 'none', 'NOW()', \'" + usr + "\', \'"+ auctionNum +"\', 'none')";
+	//Execute insert
+	Statement s2 = con.createStatement();
+	s1.executeUpdate(i2);
+
 	response.sendRedirect("userHome.jsp");
 	}
 catch(Exception e){

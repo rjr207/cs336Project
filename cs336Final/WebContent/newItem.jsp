@@ -49,7 +49,7 @@
 		<td><input type="text" name="reservePrice"></td>
 	</tr>
 	<tr>
-		<td>Duration (in days)</td>
+		<td>Duration (in 24-hour days)</td>
 		<td><input type="text" name="duration"></td>
 	</tr>
 	<tr>

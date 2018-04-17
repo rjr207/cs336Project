@@ -2,7 +2,7 @@
 	pageEncoding="ISO-8859-1" import="com.cs336.pkg.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
-<%@ page import="java.time.format.*,java.time.*"%>
+<%@ page import="java.time.format.DateTimeFormatter,java.time.LocalDateTime"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,7 +20,6 @@ double currentBid = 0;
 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
 LocalDateTime dateEntry = LocalDateTime.now();
 String time = dtf.format(dateEntry);
-
 try{
 	
 	//Get the database connection
@@ -45,7 +44,6 @@ try{
 		response.sendRedirect("userHome.jsp");
 	}
 	else{
-
 		String i1 = "INSERT INTO BID(bidAmount, paymentMethod, timePlaced, placedByUsername, auctionNum)" + " VALUES (\'"+bid+"\',\'"+pay+"\',\'"+time+"\',\'"+usr+"\', \'"+aucNum+"\')";
 			
 		//Execute insert
@@ -55,7 +53,6 @@ try{
 		response.sendRedirect("userHome.jsp");
 	}
 	
-
 }catch(Exception e){
 e.printStackTrace();
 }

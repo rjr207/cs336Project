@@ -63,7 +63,6 @@ if(session.getAttribute("resNum") == null){
 		<tr>
 			<td><input type="button" value="Home" onClick="window.location='repHome.jsp';"></td>
 			<td><input type="button" value="Messages" onClick="window.location='messages.jsp';"></td>
-			<td><input type="button" value="Account" onClick="window.location='accountInfo.jsp';"></td>
 			<td><input type="button" value="Log Out" onClick="window.location='login.jsp';"></td>
 		
 		</tr>
@@ -85,15 +84,37 @@ if(session.getAttribute("resNum") == null){
 		int needToPass = numRows*pagNum;
 		int currRow = 1;
 		int prevRows = 0;
+		double currStartingPrice;
 		try {
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
 			Statement stat = con.createStatement();
 			Statement stat2 = con.createStatement();
+			Statement stat3 = con.createStatement();
+			Statement statUser = con.createStatement();
+			Statement sell;
+			String sellUpdate;
+			ResultSet HighestSaleBid;
+			
 			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 			//NOTE: for now, only looks for auctions, not active auctions
-			ResultSet result = stat.executeQuery("SELECT * from AUCTION");
+			ResultSet result = stat.executeQuery("SELECT * from AUCTION WHERE duration>NOW()");
+			ResultSet expiredAuctions = stat3.executeQuery("SELECT * from AUCTION WHERE duration<=NOW() AND soldTo IS NULL");
+			ResultSet userList = statUser.executeQuery("SELECT * from ENDUSER WHERE username IS NOT NULL");
+			while(expiredAuctions.next()){
+				System.out.println("Attempting query:"+"SELECT placedByUsername FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\' AND bidAmount = (SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\')");
+				HighestSaleBid = stat2.executeQuery("SELECT placedByUsername FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\' AND bidAmount = (SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\')");
+				
+				if(HighestSaleBid.next()){//HighestSaleBid.getDouble(1) >= currStartingPrice
+					System.out.println("Attempting update: " + "UPDATE AUCTION SET soldTo = \'" + HighestSaleBid.getString(1) + "\' WHERE auctionNum="+ expiredAuctions.getString("auctionNum")+"");
+					sellUpdate = "UPDATE AUCTION SET soldTo = \'" + HighestSaleBid.getString(1) + "\' WHERE auctionNum="+ expiredAuctions.getString("auctionNum")+"";
+					sell =con.createStatement();
+					sell.executeUpdate(sellUpdate);
+				}
+				
+				
+			}
 			ResultSet highestBid;
 			
 			//There are ongoing auctions
@@ -142,8 +163,11 @@ if(session.getAttribute("resNum") == null){
 						out.println("</td>");
 						out.println("<td>|</td>");
 						out.print("<td>");
-						if(highestBid.next()){
-							out.print(highestBid.getInt(1));
+						currStartingPrice = Double.parseDouble(result.getString("startingPrice"));
+						highestBid.next();
+						if(highestBid.getDouble(1) >= currStartingPrice){
+							out.print(highestBid.getDouble(1));
+							//out.print("HighestBidNum");
 						}else{
 							out.print(result.getString("startingPrice"));
 						}
@@ -168,6 +192,7 @@ if(session.getAttribute("resNum") == null){
 				out.println("<td><input type=\"submit\" name=\"navBtn\" value=\"Next Page\"></td>");
 				out.println("</tr>");
 				out.println("</table>");
+				out.println("</form>");
 
 
 
@@ -176,6 +201,39 @@ if(session.getAttribute("resNum") == null){
 				out.println(" No auctions currently!");
 			}
 			
+			out.println("<h1>View Endusers</h1>");
+			//There are endusers
+			if(userList.next()){
+				out.println("<table>");
+				out.println("<tr>");
+				out.println("<td>|</td>");
+				out.println("<td>Username</td>");
+				out.println("<td>|</td>");
+				out.println("<td></td>");
+				out.println("<td>|</td>");
+				out.println("</tr>");
+				do{
+										
+						out.println("<tr>");
+						out.println("<td>|</td>");
+						out.print("<td>");
+						out.print(userList.getString("username"));
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.println("<td><form method = \"post\" action=\"viewAccount.jsp\">");
+						out.println("<input type=\"hidden\" name=\"username\" value=\""+ userList.getString("username") +"\">");
+						out.println("<input type=\"submit\" value=\"Go To User's Profile\" />");
+						out.println("</form>");
+						out.println("</td>");
+						out.println("<td>|</td>");
+						out.println("</tr>");
+						
+				}while(userList.next());
+
+			//There are no endusers!
+			}else{
+				out.println(" No endusers!");
+			}
 			con.close();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -67,6 +67,7 @@ ResultSet r1, r2, r3;
 
 <br><p>Interested in this item? Place a bid!</p>
 <form method=post action=bidCreateAttempt.jsp>
+<%out.println("<input type=\"hidden\" name=\"startingPrice\" value=\""+ r1.getDouble("startingPrice") +"\">");%>
 <table>
 	<tr><td>Bid Amount: <input type="text" name="bidAmount"></td></tr>
 	<tr><td>AudoBid Max : <input type="text" name="autoBidMax"></td></tr>

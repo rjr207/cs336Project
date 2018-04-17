@@ -15,7 +15,7 @@ String usr = (String)session.getAttribute("username");
 int aucNum = Integer.parseInt((String)session.getAttribute("currentAuction"));
 double bid = Double.parseDouble((String)request.getParameter("bidAmount"));
 String pay = request.getParameter("payment");
-String auto = request.getParameter("autoBidMax");
+double auto = Double.parseDouble((String)request.getParameter("autoBidMax"));
 double currentBid = 0;
 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");  
 LocalDateTime dateEntry = LocalDateTime.now();
@@ -27,7 +27,7 @@ try{
 	Connection con = db.getConnection();
 		
 	Statement q1 = con.createStatement();
-	ResultSet r1;
+	ResultSet r1, r2;
 	r1 = q1.executeQuery("SELECT MAX(bidAmount) from BID where auctionNum =\'"+ aucNum +"\' ");
 	while(r1.next()){
 		currentBid = r1.getDouble(1);
@@ -47,8 +47,19 @@ try{
 		String i1 = "INSERT INTO BID(bidAmount, paymentMethod, timePlaced, placedByUsername, auctionNum)" + " VALUES (\'"+bid+"\',\'"+pay+"\',\'"+time+"\',\'"+usr+"\', \'"+aucNum+"\')";
 			
 		//Execute insert
-		Statement s2 =con.createStatement();
-		s2.executeUpdate(i1);
+		out.println("Attempting bid: " + i1);
+		Statement s1 =con.createStatement();
+		s1.executeUpdate(i1);
+		
+		Statement q2 = con.createStatement();
+		r2=q2.executeQuery("SELECT LAST_INSERT_ID() from BID where auctionNum =\'"+ aucNum +"\' ");
+		
+		if(auto > bid){
+			String i2 = "INSERT INTO AUTOBID(placedBidNumber, placedAuctionNumber, placedByBidNumber, placedByAuctionNumber, maxAmount)" + " VALUES (\'"+r2.getInt(1)+"\',\'"+aucNum+"\',\'"+r2.getInt(1)+"\',\'"+aucNum+"\', \'"+auto+"\')";
+			out.println("Setting Auto-bid: " + i2);
+			Statement s2 =con.createStatement();
+			s2.executeUpdate(i2);
+		}
 		con.close();
 		response.sendRedirect("userHome.jsp");
 	}

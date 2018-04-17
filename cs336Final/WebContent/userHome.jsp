@@ -53,6 +53,21 @@ if(session.getAttribute("resNum") == null){
 		session.setAttribute("resNum", currNum);
 	}
 }
+
+//set sort criteria
+if("1".equals(request.getParameter("aucNum"))){
+	session.setAttribute("aucNum", "1");
+	session.setAttribute("iName", "0");
+	session.setAttribute("iType", "0");
+}else if("1".equals(request.getParameter("iName"))){
+	session.setAttribute("aucNum", "0");
+	session.setAttribute("iName", "1");
+	session.setAttribute("iType", "0");
+}else if("1".equals(request.getParameter("iType"))){
+	session.setAttribute("aucNum", "0");
+	session.setAttribute("iName", "0");
+	session.setAttribute("iType", "1");
+}
 //out.println("Session value = " + session.getAttribute("resNum"));
 //out.println("Form value was = " + request.getParameter("resNum"));
 %>
@@ -153,11 +168,20 @@ if(session.getAttribute("resNum") == null){
 			Statement sell;
 			String sellUpdate;
 			ResultSet HighestSaleBid;
+			String columnSort = "SELECT * from AUCTION WHERE duration>NOW()";
+			//out.println("iName: " + session.getAttribute("iName"));
+			//out.println("iType: " + session.getAttribute("iType"));
+
+			if("1".equals(session.getAttribute("iName"))){
+				columnSort = columnSort + " ORDER BY itemName";
+			}else if("1".equals(session.getAttribute("iType"))){
+				columnSort = columnSort + " ORDER BY itemType";
+			}
 			
 
-			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
+			//System.out.println("Attempting query: "+columnSort);
 			//NOTE: for now, only looks for auctions, not active auctions
-			ResultSet result = stat.executeQuery("SELECT * from AUCTION WHERE duration>NOW()");
+			ResultSet result = stat.executeQuery(columnSort);
 			ResultSet expiredAuctions = stat3.executeQuery("SELECT * from AUCTION WHERE duration<=NOW() AND soldTo IS NULL");
 			while(expiredAuctions.next()){
 				System.out.println("Attempting query:"+"SELECT placedByUsername FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\' AND bidAmount = (SELECT MAX(bidAmount) FROM BID WHERE auctionNum=\'"+ expiredAuctions.getString("auctionNum")+"\')");
@@ -179,11 +203,20 @@ if(session.getAttribute("resNum") == null){
 				out.println("<table>");
 				out.println("<tr>");
 				out.println("<td>|</td>");
-				out.println("<td>Auction#</td>");
+				out.println("<td><form method = \"post\" action=\"userHome.jsp\">");
+				out.println("<input type=\"hidden\" name=\"aucNum\" value=\"1\">");
+				out.println("<input type=\"submit\" value=\"Auction Number\" />");
+				out.println("</form></td>");
 				out.println("<td>|</td>");
-				out.println("<td>Item Name</td>");
+				out.println("<td><form method = \"post\" action=\"userHome.jsp\">");
+				out.println("<input type=\"hidden\" name=\"iName\" value=\"1\">");
+				out.println("<input type=\"submit\" value=\"Item Name\" />");
+				out.println("</form></td>");
 				out.println("<td>|</td>");
-				out.println("<td>Item Type</td>");
+				out.println("<td><form method = \"post\" action=\"userHome.jsp\">");
+				out.println("<input type=\"hidden\" name=\"iType\" value=\"1\">");
+				out.println("<input type=\"submit\" value=\"Item Type\" />");
+				out.println("</form></td>");
 				out.println("<td>|</td>");
 				out.println("<td>Current Bid</td>");
 				out.println("<td>|</td>");

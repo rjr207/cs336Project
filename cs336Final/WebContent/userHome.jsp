@@ -119,11 +119,6 @@ if(session.getAttribute("resNum") == null){
 		</select>
 		</td>
 	</tr>
-	<tr>
-		<td>Current Price Below</td>
-		<td><input type="text" name="currPrice"></td>
-	</tr>
-	<tr>
 		<td><input type="submit" value="Submit" /></td>
 	</tr>
 	</table>

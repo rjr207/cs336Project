@@ -181,6 +181,11 @@ if(session.getAttribute("resNum") == null){
 						out.print(result.getString("soldTo"));
 						out.println("</td>");
 						out.println("<td>|</td>");
+						out.println("<td><form method = \"post\" action=\"aucDeleteAttempt.jsp\">");
+						out.println("<input type=\"hidden\" name=\"auctionNumber\" value=\""+ result.getString("auctionNum") +"\">");
+						out.println("<input type=\"submit\" value=\"Remove Auction\" />");
+						out.println("</form></td>");
+						out.println("<td>|</td>");
 						out.println("</tr>");
 					}
 				}while(result.next());

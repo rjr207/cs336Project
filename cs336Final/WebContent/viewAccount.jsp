@@ -53,16 +53,18 @@ try {
 		out.println("<p>Currently no items sold");
 	
 	out.println("<br><p><h4>Previous Bids</h4></p>");
+	out.println( "<table>");
 	exist = false;
 	while(previousBids.next()){
 		exist = true;
-		out.println( "<table><tr><td>Item: " + previousBids.getString("itemName") + "&nbsp;&nbsp;Amount : $" + previousBids.getDouble("bidAmount") + "Number: " +previousBids.getString("bidNumber")+ "</td>");
+		out.println( "<tr><td>Item: " + previousBids.getString("itemName") + "&nbsp;&nbsp;Amount : $" + previousBids.getDouble("bidAmount") + "</td>");
 		out.println("<td><form method = \"post\" action=\"removeBidAttempt.jsp\">");
 		out.println("<input type=\"hidden\" name=\"bidNum\" value=\""+ previousBids.getString("bidNumber") +"\">");
 		out.println("<input type=\"submit\" value=\"Remove Bid\" />");
 		out.println("</form>");
-		out.println("</tr></table>");
+		out.println("</tr>");
 	}
+	out.println("</table>");
 	if(!exist)
 		out.println("No previous bids");
 	
@@ -93,6 +95,10 @@ try {
 			<input type="submit" value="Submit">
 		</form>
 	<%}
+	out.println("<form method = \"post\" action=\"userDeleteAttempt.jsp\">");
+	out.println("<input type=\"hidden\" name=\"username\" value=\""+ username +"\">");
+	out.println("<input type=\"submit\" value=\"Remove User\" />");
+	out.println("</form>");
 	
 %>
 </body>

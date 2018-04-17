@@ -21,7 +21,11 @@ try{
 	if(!result.next()){
 		con.close();
 		System.out.println("Auction not found");
-		response.sendRedirect("adminHome.jsp");
+		if(session.getAttribute("usrlvl").equals("admin")){
+			response.sendRedirect("adminHome.jsp");
+		}else{
+			response.sendRedirect("repHome.jsp");
+		}
 	}
 
 	String deleteAuc = "DELETE FROM AUCTION where auctionNum=\'"+auction+"\'";
@@ -31,7 +35,11 @@ try{
 	s1.executeUpdate(deleteAuc);
 	//close the connection.
 	con.close();
-	response.sendRedirect("adminHome.jsp");
+	if(session.getAttribute("usrlvl").equals("admin")){
+		response.sendRedirect("adminHome.jsp");
+	}else{
+		response.sendRedirect("repHome.jsp");
+	}
 	
 }catch(Exception e){
 e.printStackTrace();

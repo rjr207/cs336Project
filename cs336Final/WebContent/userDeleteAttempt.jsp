@@ -22,7 +22,11 @@ try{
 	if(!result.next()){
 		con.close();
 		System.out.println("User not found");
-		response.sendRedirect("adminHome.jsp");
+		if(session.getAttribute("usrlvl").equals("admin")){
+			response.sendRedirect("adminHome.jsp");
+		}else{
+			response.sendRedirect("repHome.jsp");
+		}
 	}
 
 	String deleteUsr = "DELETE FROM ENDUSER where username=\'"+usr+"\'";
@@ -32,8 +36,11 @@ try{
 	s1.executeUpdate(deleteUsr);
 	//close the connection.
 	con.close();
-	response.sendRedirect("adminHome.jsp");
-	
+	if(session.getAttribute("usrlvl").equals("admin")){
+		response.sendRedirect("adminHome.jsp");
+	}else{
+		response.sendRedirect("repHome.jsp");
+	}	
 }catch(Exception e){
 e.printStackTrace();
 }

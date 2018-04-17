@@ -30,36 +30,25 @@
 			Statement stat2 = con.createStatement();
 			//System.out.println("Attempting query:"+"SELECT * from ENDUSER where username=\'"+ usr +"\' AND password=\'"+pword+"\'");
 			//NOTE: for now, only looks for auctions, not active auctions
-			String searchCriteria = "SELECT * from AUCTION";
-			boolean whereAdded = false;
+			String searchCriteria = "SELECT * from AUCTION WHERE duration>NOW()";
 			//style specified
 			if(!request.getParameter("sockStyle").equals("nopref")){
-				searchCriteria = searchCriteria + " WHERE " + "itemType=\'"+ request.getParameter("sockStyle") + "\'";
-				whereAdded = true;
+				searchCriteria = searchCriteria + " AND " + "itemType=\'"+ request.getParameter("sockStyle") + "\'";
 			}
 			//color specified
 			if(request.getParameter("color").equals(null)){
-				if(whereAdded){
-					searchCriteria = searchCriteria + " AND " + "itemColor=\'"+ request.getParameter("color") + "\'";
-				}else{
-					searchCriteria = searchCriteria + " WHERE " + "itemColor=\'"+ request.getParameter("color") + "\'";
-					whereAdded = true;
-				}
+				searchCriteria = searchCriteria + " AND " + "itemColor=\'"+ request.getParameter("color") + "\'";
 			}
 			//size specified
 			if(!request.getParameter("sockSize").equals("nopref")){
-				if(whereAdded){
-					searchCriteria = searchCriteria + " AND " + "itemSize=\'"+ request.getParameter("sockSize") + "\'";
-				}else{
-					searchCriteria = searchCriteria + " WHERE " + "itemSize=\'"+ request.getParameter("sockSize") + "\'";
-					whereAdded = true;
-				}
+				searchCriteria = searchCriteria + " AND " + "itemSize=\'"+ request.getParameter("sockSize") + "\'";
 			}
 
 			
-			out.println("Query is: " + searchCriteria);
+			//out.println("Query is: " + searchCriteria);
 			ResultSet result = stat.executeQuery(searchCriteria);
 			ResultSet highestBid;
+			double currStartingPrice;
 			
 			//There are ongoing auctions
 			if(result.next()){
@@ -100,8 +89,11 @@
 						out.println("</td>");
 						out.println("<td>|</td>");
 						out.print("<td>");
-						if(highestBid.next()){
-							out.print(highestBid.getInt(1));
+						currStartingPrice = Double.parseDouble(result.getString("startingPrice"));
+						highestBid.next();
+						if(highestBid.getDouble(1) >= currStartingPrice){
+							//out.print(highestBid.getDouble(1));
+							//out.print("HighestBidNum");
 						}else{
 							out.print(result.getString("startingPrice"));
 						}

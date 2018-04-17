@@ -39,12 +39,12 @@ try {
 	ResultSet itemsWon = con.createStatement().executeQuery("SELECT * from AUCTION where soldTo=\'"+ username + "\'");
 	ResultSet soldItems = con.createStatement().executeQuery("SELECT * from AUCTION where soldTo IS NOT NULL AND posterUsername=\'"+ username + "\'");
 	if(userResult.next()){
-		%><p><%out.println(userResult.getString("username")); %>'s Account Page</p><%
+		%><p><%out.println("<h2>" + userResult.getString("username")); %>'s Account Page</h2></p><%
 	}
 	else
 		System.out.println("Unable to find user with given username");
 	
-	out.println("<br><p>Previously Sold Items</p>");
+	out.println("<br><p><h4>Previously Sold Items</h4></p>");
 	boolean exist = false;
 	while(soldItems.next()){
 		exist = true;
@@ -53,7 +53,7 @@ try {
 	if(!exist)
 		out.println("<p>Currently no items sold");
 	
-	out.println("<br><p>Previous Bids</p>");
+	out.println("<br><p><h4>Previous Bids</h4></p>");
 	exist = false;
 	while(previousBids.next()){
 		exist = true;
@@ -62,7 +62,7 @@ try {
 	if(!exist)
 		out.println("No previous bids");
 	
-	out.println("<br><p>Items Won</p>");
+	out.println("<br><p><h4>Items Won</h4></p>");
 	exist = false;
 	while(itemsWon.next()){
 		exist = true;
@@ -74,7 +74,7 @@ try {
 
 	
 	if(session.getAttribute("username").equals(username)){
-		out.println("<br><p>Alerts<p>");
+		out.println("<br><p><h4>Alerts</h4><p>");
 		exist = false;
 		while(alerts.next()){
 			exist = true;
